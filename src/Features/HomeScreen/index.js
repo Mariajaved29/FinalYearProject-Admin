@@ -10,16 +10,12 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen;
-
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // paddingTop: Constants.statusBarHeight,
     backgroundColor: '#ecf0f1',
-    // padding: 100,
   },
   paragraph: {
     margin: 24,
@@ -28,3 +24,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+export default HomeScreen;
+
