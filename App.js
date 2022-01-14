@@ -1,11 +1,14 @@
 import React from "react";
-import {View} from "react-native";
-import HomePage from "./src/Features/Home/HomePage";
+import { View } from "react-native";
+import HomeScreen from "./src/Features/HomeScreen/index";
 
 const App = () => {
+
   return(
     <View>
-      <HomePage />
+      <HomeScreen />
     </View>
-  )
-}
+  );
+};
+
+export default App;
