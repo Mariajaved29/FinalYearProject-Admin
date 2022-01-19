@@ -1,14 +1,18 @@
-import React from "react";
-import { View } from "react-native";
-import HomeScreen from "./src/Features/HomeScreen"
+import React from 'react';
 
-const App = () => {
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-  return(
-    <View>
-      <HomeScreen />
-    </View>
+import RootStack from './src/Navigation/RootStack';
+import AppStack from './src/Navigation/AppStack';
+
+function App() {
+  return (
+    <NavigationContainer>
+      < RootStack />
+      {/* <AppStack /> */}
+    </NavigationContainer>
   );
-};
+}
 
 export default App;
