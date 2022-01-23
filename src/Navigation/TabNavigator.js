@@ -4,9 +4,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 import HomeScreen from '../Features/HomeScreen';
-import CartScreen from '../Features/CartScreen';
-import FavoriteScreen from '../Features/FavoriteScreen';
-import GameDetailsScreen from '../Features/GameDetailsScreen';
+import Notification from '../Features/Notification';
+import ProfileScreen from '../Features/ProfileScreen';
+import CoursesDetailsScreen from '../Features/CoursesDetailsScreen';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
@@ -23,8 +23,8 @@ const HomeStack = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="GameDetails"
-        component={GameDetailsScreen}
+        name="CoursesDetails"
+        component={CoursesDetailsScreen}
         options={({route}) => ({
           title: route.params?.title,
         })}
@@ -57,22 +57,22 @@ const TabNavigator = () => {
         })}
       />
       <Tab.Screen
-        name="Cart"
-        component={CartScreen}
+        name="Notification"
+        component={Notification}
         options={{
           tabBarBadge: 3,
           tabBarBadgeStyle: {backgroundColor: '#729875'},
           tabBarIcon: ({color, size}) => (
-            <Feather name="shopping-bag" color={color} size={size} />
+            <Feather name="bell" color={color} size={size} />
           ),
         }}
       />
       <Tab.Screen
-        name="Favorite"
-        component={FavoriteScreen}
+        name="Profile"
+        component={ProfileScreen}
         options={{
           tabBarIcon: ({color, size}) => (
-            <Ionicons name="heart-outline" color={color} size={size} />
+            <Ionicons name="person-outline" color={color} size={size} />
           ),
         }}
       />
@@ -85,7 +85,7 @@ const getTabBarVisibility = route => {
   const routeName = getFocusedRouteNameFromRoute(route) ?? 'Feed';
   // console.log(routeName);
 
-  if( routeName == 'GameDetails' ) {
+  if( routeName == 'CoursesDetails' ) {
     return 'none';
   }
   return 'flex';
