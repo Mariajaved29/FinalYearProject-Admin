@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet,
     Text, 
     View, 
@@ -6,15 +6,22 @@ import { StyleSheet,
     Dimensions,
     Platform,
     TextInput,
-    StatusBar
+    StatusBar,
+    ScrollView
     }
    from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import * as Animatable from 'react-native-animatable';
+import { AuthContext } from '../../Navigation/AuthProvider';
 
 const SignInScreen = ({navigation}) => {
+
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+
+    const { login } = useContext(AuthContext);
 
     const[data, setData] = React.useState({
         username:'',
@@ -42,23 +49,23 @@ const SignInScreen = ({navigation}) => {
                 })}
         }
         // These functions are used for password
-    const handlePasswordChange = (val) => {
-        if(val.trim().length >= 8) {
-        setData({
-            ...data,
-            password: val,
-            checkPassword_textInputChange: true,
-            isValidPassword: true,
-        })
-    } else {
-        setData({
-            ...data,
-            password:val,
-            checkPassword_textInputChange: true,
-            isValidPassword: false,
-        })
+        const handlePasswordChange = (val) => {
+            if(val.trim().length >= 8) {
+            setData({
+                ...data,
+                password: val,
+                checkPassword_textInputChange: true,
+                isValidPassword: true,
+            })
+        } else {
+            setData({
+                ...data,
+                password:val,
+                checkPassword_textInputChange: true,
+                isValidPassword: false,
+            })
+        }
     }
-}
     const updateSecureTextEntry = () => {
         setData({
             ...data,
@@ -74,18 +81,19 @@ const SignInScreen = ({navigation}) => {
             <Animatable.View
             animation='fadeInUpBig'
              style={styles.footer}>
-            <Text style={styles.text_footer}>Username</Text>
+            <Text style={styles.text_footer}>Email Address</Text>
             <View style={styles.action}>
                 <FontAwesome
-                    name="user-o"
+                    name="envelope-o"
                     color="#05375a"
                     size={20} 
                 /> 
                 <TextInput
-                    placeholder='Your Username'
+                    placeholder='Your Email'
                     style={styles.textInput} 
                     autoCapitalize='none'
-                    onChangeText={(val) => textInputChange(val)}
+                    // onChangeText={(val) => textInputChange(val)}
+                    onChangeText={(userEmail) => setEmail(userEmail)}
                 />  
                 {data.check_textInputChange ? 
                 <Animatable.View 
@@ -99,11 +107,11 @@ const SignInScreen = ({navigation}) => {
                 : null}        
             </View>
             {/* User Validation */}
-            {data.isValidUser ? null : 
+            {/* {data.isValidUser ? null : 
             <Animatable.View animation='fadeInLeft' duration={500}>
             <Text style={styles.errorMsg}>Username must be 4 characters long</Text>
             </Animatable.View>
-            }
+            } */}
             {/* Password Field */}
             <Text style={[styles.text_footer, {marginTop : 35}]}>Password</Text>
             <View style={styles.action}>
@@ -117,7 +125,8 @@ const SignInScreen = ({navigation}) => {
                     secureTextEntry={data.secureTextEntry ? true : false}
                     style={styles.textInput} 
                     autoCapitalize='none'
-                    onChangeText={(val) => handlePasswordChange(val)}
+                    onChangeText={(userPassword) => setPassword(userPassword)}
+                    // onChangeText={(val) => handlePasswordChange(val)}
                     // onEndEditing={(e) => handleValidPassword(e.nativeEvent.text)}
                 />  
                 {data.checkPassword_textInputChange ? 
@@ -151,7 +160,8 @@ const SignInScreen = ({navigation}) => {
                     colors={['#729875', '#729875']}
                     style={styles.signIn} >
                              <TouchableOpacity
-                    onPress={() => navigation.navigate('AuthStack')}>
+                    // onPress={() => navigation.navigate('AuthStack')}
+                    onPress={() => login(email, password)}>
                         <Text style={[styles.textSign, {color:'#fff'}]}>Sign In</Text>
                         </TouchableOpacity>
                     </LinearGradient>
