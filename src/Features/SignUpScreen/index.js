@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet,
     Text, 
     View, 
@@ -13,8 +13,15 @@ import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import * as Animatable from 'react-native-animatable';
+import { AuthContext } from '../../Navigation/AuthProvider';
 
 const SignUpScreen = ({navigation}) => {
+
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const [confirmPassword, setConfirmPassword] = useState();
+
+    const {register} = useContext(AuthContext);
 
     const[data, setData] = React.useState({
         username:'',
@@ -138,7 +145,7 @@ const SignUpScreen = ({navigation}) => {
             <Text style={[styles.text_footer, {marginTop : 10}]}>Email</Text>
             <View style={styles.action}>
                 <FontAwesome
-                    name="user-o"
+                    name="envelope-o"
                     color="#05375a"
                     size={20} 
                 /> 
@@ -146,7 +153,8 @@ const SignUpScreen = ({navigation}) => {
                     placeholder='Your Email'
                     style={styles.textInput} 
                     autoCapitalize='none'
-                    onChangeText={(val) => emailInputChange(val)}
+                    // onChangeText={(val) => emailInputChange(val)}
+                    onChangeText={(userEmail) => setEmail(userEmail)}
                 />  
                 {data.check_textInputChange ? 
                 <Animatable.View 
@@ -172,7 +180,8 @@ const SignUpScreen = ({navigation}) => {
                     secureTextEntry={data.secureTextEntry ? true : false}
                     style={styles.textInput} 
                     autoCapitalize='none'
-                    onChangeText={(val) => handlePasswordChange(val)}
+                    // onChangeText={(val) => handlePasswordChange(val)}
+                    onChangeText={(userPassword) => setPassword(userPassword)}
                 />  
                 {data.checkPassword_textInputChange ? 
                 <TouchableOpacity
@@ -206,7 +215,8 @@ const SignUpScreen = ({navigation}) => {
                     secureTextEntry={data.conform_secureTextEntry ? true : false}
                     style={styles.textInput} 
                     autoCapitalize='none'
-                    onChangeText={(val) => handleConformPasswordChange(val)}
+                    onChangeText={(userPassword) => setPassword(userPassword)}
+                    // onChangeText={(val) => handleConformPasswordChange(val)}
                 />  
                 {data.checkConformPassword_textInputChange ? 
                 <TouchableOpacity
@@ -233,7 +243,8 @@ const SignUpScreen = ({navigation}) => {
                     colors={['#729875', '#729875']}
                     style={styles.signIn} >
                           <TouchableOpacity
-                    onPress={() => (alert('Congratulations! You are now registered'))}>
+                    // onPress={() => (alert('Congratulations! You are now registered'))}>
+                    onPress={() => register(email, password)}>
                         <Text style={[styles.textSign, {color:'#fff'}]}>Sign Up</Text>
                         </TouchableOpacity>
                     </LinearGradient>
