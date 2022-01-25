@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "194588063260",
+    "project_id": "rn-madrassaapp",
+    "storage_bucket": "rn-madrassaapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:194588063260:android:653c918f4d661ebe8351d9",
+        "android_client_info": {
+          "package_name": "com.finalyearproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "194588063260-spmm2oj0jn31svg8050hr84abbiude4r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcbRxo4aHFwDL_ijEQ2a5-O6w4B2FhJuQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "194588063260-spmm2oj0jn31svg8050hr84abbiude4r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
