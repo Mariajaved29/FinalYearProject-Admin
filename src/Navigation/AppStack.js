@@ -18,7 +18,7 @@ import EditProfile from '../Features/ProfileScreen/EditProfile'
 import TabNavigator from './TabNavigator';
 import CoursesDetailsScreen from '../Features/CoursesDetailsScreen';
 const Drawer = createDrawerNavigator();
-const Profile = createNativeStackNavigator();
+const ProfileStack = createNativeStackNavigator();
 
 const AuthStack = () => {
   return (
@@ -51,8 +51,7 @@ const AuthStack = () => {
         />
         <Drawer.Screen
           name="Profile"
-          // component={ProfileStackScreen}
-          component={ProfileScreen}
+          component={ProfileStackScreen}
           options={{
             headerShown: false,
             drawerIcon: ({color}) => (
@@ -100,50 +99,50 @@ const AuthStack = () => {
   );
 };
 
-// const ProfileStackScreen = ({navigation}) => {
-//   return(
-//   <Profile.Navigator 
-//   screenOptions={{
-//     headerStyle:{
-//       backgroundColor: '#c1e3ca',
-//       shadowColor: '#c1e3ca',
-//       elevation: 0,
-//     },
-//   }}>
-//     <Profile.Screen
-//     name='Profile'
-//     component={ProfileScreen}
-//     options={{
-//       title:'',
-//       headerLeft:() =>(
-//         <Icon.Button
-//         name='ios-menu'
-//         size={25}
-//         backgroundColor='#c1e3ca'
-//         color='#000'
-//         onPress={() => navigation.openDrawer()}
-//         />
-//       ),
-//       headerRight: () => (
-//         <MaterialCommunityIcons.Button
-//         name='account-edit'
-//         size={25}
-//         backgroundColor='#c1e3ca'
-//         color='#000'
-//         onPress={() => navigation.navigate('EditProfile')}
-//         />
-//       )
-//     }}
-//        /> 
-//        <Profile.Screen 
-//        name='EditProfile'
-//        options={{
-//          title: 'Edit Profile'
-//        }}
-//        component={EditProfile}
-//        />
-//   </Profile.Navigator>
-//   )
-// }
+const ProfileStackScreen = ({navigation}) => {
+  return(
+  <ProfileStack.Navigator 
+  screenOptions={{
+    headerStyle:{
+      backgroundColor: '#c1e3ca',
+      shadowColor: '#c1e3ca',
+      elevation: 0,
+    },
+  }}>
+    <ProfileStack.Screen
+    name='ProfileScreen'
+    component={ProfileScreen}
+    options={{
+      title:'',
+      headerLeft:() =>(
+        <Icon.Button
+        name='ios-menu'
+        size={25}
+        backgroundColor='#c1e3ca'
+        color='#000'
+        onPress={() => navigation.openDrawer()}
+        />
+      ),
+      headerRight: () => (
+        <MaterialCommunityIcons.Button
+        name='account-edit'
+        size={25}
+        backgroundColor='#c1e3ca'
+        color='#000'
+        onPress={() => navigation.navigate('EditProfile')}
+        />
+      )
+    }}
+       /> 
+       <ProfileStack.Screen 
+       name='EditProfile'
+       options={{
+         title: 'Edit Profile'
+       }}
+       component={EditProfile}
+       />
+  </ProfileStack.Navigator>
+  )
+}
 export default AuthStack;
 
