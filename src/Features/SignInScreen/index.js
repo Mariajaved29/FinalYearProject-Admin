@@ -24,44 +24,44 @@ const SignInScreen = ({navigation}) => {
     const { login } = useContext(AuthContext);
 
     const[data, setData] = React.useState({
-        username:'',
-        password: '',
-        check_textInputChange:'',
+        userEmail:'',
+        userPassword: '',
+        check_textInputChange: false,
         secureTextEntry: true,
-        isValidUser: true,
+        isValidUserEmail: true,
         isValidPassword: true
     })
-    //  these functions are used for username
-    const textInputChange = (val) => {
-        if(val.trim().length >= 4) {
+    //  these functions are used for userEmail
+    const textInputChange = (userEmail) => {
+        if(userEmail.trim().length >= 4) {
             setData({
                     ...data,
-                    username:val,
-                    isValidUser: true,
-                    check_textInputChange: true,
+                    userEmail: userEmail,
+                    isValidUserEmail: true,
+                    check_textInputChange: true
                 })
             } else {
                 setData({
                     ...data,
-                    username:val,
-                    isValidUser: false,
+                    userEmail:userEmail,
+                    isValidUserEmail: false,
                     check_textInputChange: false
                 })}
         }
         // These functions are used for password
-        const handlePasswordChange = (val) => {
-            if(val.trim().length >= 8) {
+        const handlePasswordChange = (userPassword) => {
+            if(userPassword.trim().length >= 8) {
             setData({
                 ...data,
-                password: val,
+                password: userPassword,
                 checkPassword_textInputChange: true,
                 isValidPassword: true,
             })
         } else {
             setData({
                 ...data,
-                password:val,
-                checkPassword_textInputChange: true,
+                password:userPassword,
+                checkPassword_textInputChange: false,
                 isValidPassword: false,
             })
         }
@@ -71,6 +71,20 @@ const SignInScreen = ({navigation}) => {
             ...data,
             secureTextEntry: !data.secureTextEntry
         })
+    }
+
+    const handleValidUser = (userEmail) => {
+        if( userEmail.length >= 4 ) {
+            setData({
+                ...data,
+                isValidUserEmail: true
+            });
+        } else {
+            setData({
+                ...data,
+                isValidUserEmail: false
+            });
+        }
     }
     return (
         <View style={styles.container}>
@@ -92,8 +106,9 @@ const SignInScreen = ({navigation}) => {
                     placeholder='Your Email'
                     style={styles.textInput} 
                     autoCapitalize='none'
-                    // onChangeText={(val) => textInputChange(val)}
-                    onChangeText={(userEmail) => setEmail(userEmail)}
+                    // onChangeText={(userEmail) => textInputChange(userEmail)}
+                    onChangeText={(userEmail) => {setEmail(userEmail); textInputChange(userEmail)}}
+                    onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
                 />  
                 {data.check_textInputChange ? 
                 <Animatable.View 
@@ -106,12 +121,13 @@ const SignInScreen = ({navigation}) => {
                 </Animatable.View>
                 : null}        
             </View>
+
             {/* User Validation */}
-            {/* {data.isValidUser ? null : 
+            {data.isValidUserEmail ? null : 
             <Animatable.View animation='fadeInLeft' duration={500}>
             <Text style={styles.errorMsg}>Username must be 4 characters long</Text>
             </Animatable.View>
-            } */}
+            }
             {/* Password Field */}
             <Text style={[styles.text_footer, {marginTop : 35}]}>Password</Text>
             <View style={styles.action}>
@@ -125,9 +141,9 @@ const SignInScreen = ({navigation}) => {
                     secureTextEntry={data.secureTextEntry ? true : false}
                     style={styles.textInput} 
                     autoCapitalize='none'
-                    onChangeText={(userPassword) => setPassword(userPassword)}
+                    onChangeText={(userPassword) => {setPassword(userPassword); handlePasswordChange(userPassword)}}
                     // onChangeText={(val) => handlePasswordChange(val)}
-                    // onEndEditing={(e) => handleValidPassword(e.nativeEvent.text)}
+                    onEndEditing={(e) => handlePasswordChange(e.nativeEvent.text)}
                 />  
                 {data.checkPassword_textInputChange ? 
                 <TouchableOpacity
@@ -148,11 +164,12 @@ const SignInScreen = ({navigation}) => {
                 </TouchableOpacity>
                 : null}             
             </View>
+
             {/* Password Validation */}
             {data.isValidPassword ? null : 
-            <Animatable.View animation='fadeInLeft' duration={500}>
-            <Text style={styles.errorMsg}>Password must be 8 characters long</Text>
-            </Animatable.View>
+                <Animatable.View animation='fadeInLeft' duration={500}>
+                <Text style={styles.errorMsg}>Password must be 8 characters long</Text>
+                </Animatable.View>
             }
             {/* Button Field */}
             <View style={styles.button}>

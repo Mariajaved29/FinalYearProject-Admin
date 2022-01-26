@@ -5,14 +5,14 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import RootStack from './src/Navigation/RootStack';
 import AppStack from './src/Navigation/AppStack';
+import Providers from './src/Router';
 
 function App() {
-  return (
-    <NavigationContainer>
+  return <Providers />
+    {/* <NavigationContainer>
       < RootStack />
-      {/* <AppStack /> */}
-    </NavigationContainer>
-  );
+      <AppStack />
+    </NavigationContainer> */}
 }
 
 export default App;

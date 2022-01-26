@@ -6,7 +6,8 @@ import { StyleSheet,
     Dimensions,
     Platform,
     TextInput,
-    StatusBar
+    StatusBar,
+    ScrollView
     }
    from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -17,6 +18,7 @@ import { AuthContext } from '../../Navigation/AuthProvider';
 
 const SignUpScreen = ({navigation}) => {
 
+    const [name ,setName] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
@@ -24,74 +26,87 @@ const SignUpScreen = ({navigation}) => {
     const {register} = useContext(AuthContext);
 
     const[data, setData] = React.useState({
-        username:'',
-        email:'',
-        password: '',
-        conform_password:'',
-        check_textInputChange:'',
+        userName:'',
+        userEmail:'',
+        userPassword: '',
+        conform_userPassword:'',
+        check_textInputChange: false,
         secureTextEntry: true,
-        conform_secureTextEntry: true
+        conform_secureTextEntry: true,
+        isValidUserName: true,
+        isValidUserEmail: true,
+        isValidPassword: true,
+        isValidConfirmedPassword: true
     })
 
-    const userInputChange = (val) => {
-        if(val.length != 0 ) {
+    const userInputChange = (userName) => {
+        if(userName.trim().length >= 4) {
             setData({
                 ...data,
-                username:val,
+                userName: userName,
+                isValidUserName: true,
                 checkUser_textInputChange: true
             })
         } else {
             setData({
                 ...data,
-                username:val,
+                userName: userName,
+                isValidUserName: false,
                 checkUser_textInputChange: false
             })
         }
     }
 
-    const emailInputChange = (val) => {
-        if(val.length != 0 ) {
+    const emailInputChange = (userEmail) => {
+        if(userEmail.trim().length >= 4) {
             setData({
                 ...data,
-                email:val,
-                check_textInputChange: true
+                email: userEmail,
+                check_textInputChange: true,
+                isValidUserEmail: true
             })
         } else {
             setData({
                 ...data,
-                email:val,
+                email: userEmail,
+                isValidUserEmail: false,
                 check_textInputChange: false
             })
         }
     }
 
-    const handlePasswordChange = (val) => {
-        if(val.length != 0 ) {
-        setData({
-            ...data,
-            password: val,
-            checkPassword_textInputChange: true
-        })
-    } else {
-        setData({
-            ...data,
-            password:val,
-            checkPassword_textInputChange: false
-        })
-    }
-}
-    const handleConformPasswordChange = (val) => {
-        if(val.length != 0 ) {
+    const handlePasswordChange = (userPassword) => {
+        if(userPassword.trim().length >= 8) {
             setData({
                 ...data,
-                conform_password: val,
-                checkConformPassword_textInputChange: true
+                password: userPassword,
+                isValidPassword: true,
+                checkPassword_textInputChange: true
             })
         } else {
             setData({
                 ...data,
-                conform_password:val,
-                checkConformPassword_textInputChange: false
+                password: userPassword,
+                isValidPassword: false,
+                checkPassword_textInputChange: false
+            })
+        }
+    }
+
+    const handleConfirmPasswordChange = (userConfirmedPassword, userPassword) => {
+        if(userConfirmedPassword === password) {
+            setData({
+                ...data,
+                conform_password: userConfirmedPassword,
+                isValidConfirmedPassword: true,
+                checkConformPassword_textInputChange: true,
+            })
+        } else {
+            setData({
+                ...data,
+                conform_password:userConfirmedPassword,
+                isValidConfirmedPassword: false,
+                checkConformPassword_textInputChange: true
             })
         }
     }
@@ -107,6 +122,34 @@ const SignUpScreen = ({navigation}) => {
             conform_secureTextEntry: !data.conform_secureTextEntry
         })
     }
+    const handleValidUserName = (userName) => {
+        if( userName.length >= 4 ) {
+            setData({
+                ...data,
+                isValidUserName: true
+            });
+        } else {
+            setData({
+                ...data,
+                isValidUserName: false
+            });
+        }
+    }
+    const handleValidUserEmail = (userEmail) => {
+        if( userEmail.length >= 4 ) {
+            setData({
+                ...data,
+                isValidUserEmail: true
+            });
+        } else {
+            setData({
+                ...data,
+                isValidUserEmail: false
+            });
+        }
+    }
+    
+
     return (
         <View style={styles.container}>
             <StatusBar backgroundColor='#729875' barStyle='light-content' />
@@ -125,10 +168,11 @@ const SignUpScreen = ({navigation}) => {
                     size={20} 
                 /> 
                 <TextInput
-                    placeholder='Your username'
+                    placeholder='Your userName'
                     style={styles.textInput} 
                     autoCapitalize='none'
-                    onChangeText={(val) => userInputChange(val)}
+                    onChangeText={(userName) => {setName(userName); userInputChange(userName)}}
+                    onEndEditing={(e) => handleValidUserName(e.nativeEvent.text)}
                 />  
                 {data.checkUser_textInputChange ? 
                 <Animatable.View 
@@ -141,6 +185,14 @@ const SignUpScreen = ({navigation}) => {
                 </Animatable.View>
                 : null}        
             </View>
+
+            {/* User Validation */}
+            {data.isValidUserName ? null : 
+                <Animatable.View animation='fadeInLeft' duration={500}>
+                <Text style={styles.errorMsg}>Username must be 4 characters long</Text>
+                </Animatable.View>
+            }
+
                  {/* Email Field */}
             <Text style={[styles.text_footer, {marginTop : 10}]}>Email</Text>
             <View style={styles.action}>
@@ -153,8 +205,9 @@ const SignUpScreen = ({navigation}) => {
                     placeholder='Your Email'
                     style={styles.textInput} 
                     autoCapitalize='none'
-                    // onChangeText={(val) => emailInputChange(val)}
-                    onChangeText={(userEmail) => setEmail(userEmail)}
+                    // onChangeText={(userEmail) => emailInputChange(userEmail)}
+                    onChangeText={(userEmail) => {setEmail(userEmail); emailInputChange(userEmail)}}
+                    onEndEditing={(e) => handleValidUserEmail(e.nativeEvent.text)}
                 />  
                 {data.check_textInputChange ? 
                 <Animatable.View 
@@ -167,6 +220,14 @@ const SignUpScreen = ({navigation}) => {
                 </Animatable.View>
                 : null}        
             </View>
+
+            {/* User Validation */}
+            {data.isValidUserEmail ? null : 
+                <Animatable.View animation='fadeInLeft' duration={500}>
+                <Text style={styles.errorMsg}>Username must be 4 characters long</Text>
+                </Animatable.View>
+            }
+
             {/* Password field */}
             <Text style={[styles.text_footer, {marginTop : 10}]}>Password</Text>
             <View style={styles.action}>
@@ -180,29 +241,37 @@ const SignUpScreen = ({navigation}) => {
                     secureTextEntry={data.secureTextEntry ? true : false}
                     style={styles.textInput} 
                     autoCapitalize='none'
-                    // onChangeText={(val) => handlePasswordChange(val)}
-                    onChangeText={(userPassword) => setPassword(userPassword)}
+                    // onChangeText={(userPassword) => handlePasswordChange(userPassword)}
+                    onChangeText={(userPassword) => {setPassword(userPassword); handlePasswordChange(userPassword) }}
                 />  
                 {data.checkPassword_textInputChange ? 
                 <TouchableOpacity
                     onPress={updateSecureTextEntry}> 
                     {data.secureTextEntry ?
-                <Feather
-                    name="eye-off"
-                    color="grey"
-                    size={20}
-                /> 
-                : 
-                <Feather
-                name="eye"
-                color="grey"
-                size={20}
-            /> 
-                }
+                        <Feather
+                            name="eye-off"
+                            color="grey"
+                            size={20}
+                        /> 
+                        : 
+                        <Feather
+                        name="eye"
+                        color="grey"
+                        size={20}
+                        /> 
+                    }
                 </TouchableOpacity>
                 : null}          
             </View>
-            {/* Conform password field */}
+
+            {/* Password Validation */}
+            {data.isValidPassword ? null : 
+                <Animatable.View animation='fadeInLeft' duration={500}>
+                <Text style={styles.errorMsg}>Password must be 8 characters long</Text>
+                </Animatable.View>
+            }
+            
+            {/* Confirm password field */}
             <Text style={[styles.text_footer, {marginTop : 10}]}>Conform Password</Text>
             <View style={styles.action}>
                 <FontAwesome
@@ -215,28 +284,36 @@ const SignUpScreen = ({navigation}) => {
                     secureTextEntry={data.conform_secureTextEntry ? true : false}
                     style={styles.textInput} 
                     autoCapitalize='none'
-                    onChangeText={(userPassword) => setPassword(userPassword)}
-                    // onChangeText={(val) => handleConformPasswordChange(val)}
+                    onChangeText={(userConfirmedPassword) => handleConfirmPasswordChange(userConfirmedPassword)}
+                    onEndEditing={(e) => handleConfirmPasswordChange(e.nativeEvent.text)}
                 />  
                 {data.checkConformPassword_textInputChange ? 
-                <TouchableOpacity
-                    onPress={updateConformSecureTextEntry}> 
-                    {data.conform_secureTextEntry ?
-                <Feather
-                    name="eye-off"
+                    <TouchableOpacity
+                        onPress={updateConformSecureTextEntry}> 
+                        {data.conform_secureTextEntry ?
+                    <Feather
+                        name="eye-off"
+                        color="grey"
+                        size={20}
+                    /> 
+                    : 
+                    <Feather
+                    name="eye"
                     color="grey"
                     size={20}
-                /> 
-                : 
-                <Feather
-                name="eye"
-                color="grey"
-                size={20}
-            /> 
+                    /> 
                 }
                 </TouchableOpacity>
                 : null}                  
             </View>
+
+            {/* Password Validation */}
+            {data.isValidConfirmedPassword ? null : 
+                <Animatable.View animation='fadeInLeft' duration={500}>
+                <Text style={styles.errorMsg}>Password doesn't match</Text>
+                </Animatable.View>
+            }
+
             {/* Button Field */}
             <View style={styles.button}>
                 <LinearGradient
