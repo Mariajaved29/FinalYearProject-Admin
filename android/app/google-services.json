@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "194588063260",
-    "project_id": "rn-madrassaapp",
-    "storage_bucket": "rn-madrassaapp.appspot.com"
+    "project_number": "1043998897082",
+    "project_id": "rn-app-for-madrassa",
+    "storage_bucket": "rn-app-for-madrassa.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:194588063260:android:653c918f4d661ebe8351d9",
+        "mobilesdk_app_id": "1:1043998897082:android:ad9bc5cdf8cdf3806d6383",
         "android_client_info": {
           "package_name": "com.finalyearproject"
         }
       },
       "oauth_client": [
         {
-          "client_id": "194588063260-spmm2oj0jn31svg8050hr84abbiude4r.apps.googleusercontent.com",
+          "client_id": "1043998897082-06on7eiv7bqt5vvq9ms0rgiq8gv7fkm6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCcbRxo4aHFwDL_ijEQ2a5-O6w4B2FhJuQ"
+          "current_key": "AIzaSyD1VBv2q4unh2k1ohCBvA33NjxWtFEYJo8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "194588063260-spmm2oj0jn31svg8050hr84abbiude4r.apps.googleusercontent.com",
+              "client_id": "1043998897082-06on7eiv7bqt5vvq9ms0rgiq8gv7fkm6.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

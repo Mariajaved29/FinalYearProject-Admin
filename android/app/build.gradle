@@ -209,6 +209,9 @@ dependencies {
     debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.flipper'
     }
+    // // Import the Firebase BoM
+    // implementation platform('com.google.firebase:firebase-bom:29.0.4')
+
 
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";

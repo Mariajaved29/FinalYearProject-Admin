@@ -1,6 +1,8 @@
 import React, {createContext, useState} from 'react';
 import auth from '@react-native-firebase/auth';
 // import firestore from '@react-native-firebase/app';
+// import firestore from '@react-native-firebase/firestore';
+
 
 export const AuthContext = createContext();
 
@@ -23,7 +25,12 @@ export const AuthProvider = ({children}) => {
                 if (error.code === 'auth/invalid-email') {
                   alert('That email address is invalid!')
                 }
-                console.error(error);
+                if (error.code === 'auth/invalid-email') {
+                  alert('That email address is invalid!')
+                }
+                if (error.code === 'auth/user-not-found') {
+                  alert('User Not found!')
+                }
               });
             } 
             catch (e) {
@@ -72,7 +79,7 @@ export const AuthProvider = ({children}) => {
             // });
           } catch (e) {
             console.log(e);
-            alert('Invalid Information!')
+            alert('Invalid Information!');
           }
         },
         logout: async () => {

@@ -20,6 +20,7 @@ const SignInScreen = ({navigation}) => {
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
+    const [errortext, setErrortext] = useState('');
 
     const { login } = useContext(AuthContext);
 
@@ -86,6 +87,24 @@ const SignInScreen = ({navigation}) => {
             });
         }
     }
+
+    const handleSubmitPress = (email, password) => {
+        setErrortext('');
+        if (!email) {
+          alert('Please fill Email');
+          return;
+        }
+        if (!password) {
+          alert('Please fill Password');
+          return;
+        }
+            // If server response message same as Data Matched
+        else{
+            setErrortext(Response.error);
+            console.log('Please check your email id or password');
+        }
+    };
+
     return (
         <View style={styles.container}>
             <StatusBar backgroundColor='#729875' barStyle='light-content' />
@@ -178,7 +197,7 @@ const SignInScreen = ({navigation}) => {
                     style={styles.signIn} >
                              <TouchableOpacity
                     // onPress={() => navigation.navigate('AuthStack')}
-                    onPress={() => login(email, password)}>
+                    onPress={() => {login(email, password); handleSubmitPress(email, password)}}>
                         <Text style={[styles.textSign, {color:'#fff'}]}>Sign In</Text>
                         </TouchableOpacity>
                     </LinearGradient>
