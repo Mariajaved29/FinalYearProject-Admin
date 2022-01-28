@@ -15,15 +15,41 @@ export const AuthProvider = ({children}) => {
         setUser,
         login: async (email, password) => {
           try {
-            await auth().signInWithEmailAndPassword(email, password);
-          } catch (e) {
-            console.log(e);
-            alert('Invalid user email or password');
-          }
-        },
+            await auth().signInWithEmailAndPassword(email, password)
+            .then(() => {
+              alert('Signed in Successfully!')
+              })
+              .catch(error => {
+                if (error.code === 'auth/invalid-email') {
+                  alert('That email address is invalid!')
+                }
+                console.error(error);
+              });
+            } 
+            catch (e) {
+              console.log(e);
+              alert('Invalid user email or password');
+            }
+         },
         register: async (email, password) => {
           try {
-            await auth().createUserWithEmailAndPassword(email, password);
+            await auth().createUserWithEmailAndPassword(email, password)
+            .then(() => {
+              console.log('User account created & signed in!');
+              alert('User account created & signed in!')
+              })
+              .catch(error => {
+                if (error.code === 'auth/email-already-in-use') {
+                  console.log('That email address is already in use!');
+                  alert('That email address is already in use!')
+                }
+
+                if (error.code === 'auth/invalid-email') {
+                  console.log('That email address is invalid!');
+                  alert('That email address is invalid!')
+                }
+                console.error(error);
+              });
             // .then(() => {
             //   //Once the user creation has happened successfully, we can add the currentUser into firestore
             //   //with the appropriate details.
