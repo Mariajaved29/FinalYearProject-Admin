@@ -16,12 +16,12 @@ import Feather from 'react-native-vector-icons/Feather';
 import * as Animatable from 'react-native-animatable';
 import { AuthContext } from '../../Navigation/AuthProvider';
 
+
 const SignUpScreen = ({navigation}) => {
 
     const [name ,setName] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    const [confirmPassword, setConfirmPassword] = useState();
 
     const {register} = useContext(AuthContext);
 
@@ -136,7 +136,8 @@ const SignUpScreen = ({navigation}) => {
         }
     }
     const handleValidUserEmail = (userEmail) => {
-        if( userEmail.length >= 4 ) {
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        if( userEmail.length == reg.test(userEmail) ) {
             setData({
                 ...data,
                 isValidUserEmail: true
@@ -148,6 +149,8 @@ const SignUpScreen = ({navigation}) => {
             });
         }
     }
+
+    const submitData = async () => {}
     
 
     return (
@@ -224,7 +227,7 @@ const SignUpScreen = ({navigation}) => {
             {/* User Validation */}
             {data.isValidUserEmail ? null : 
                 <Animatable.View animation='fadeInLeft' duration={500}>
-                <Text style={styles.errorMsg}>Username must be 4 characters long</Text>
+                <Text style={styles.errorMsg}>Email address is required </Text>
                 </Animatable.View>
             }
 
