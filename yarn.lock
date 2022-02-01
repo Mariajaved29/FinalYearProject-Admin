@@ -1292,6 +1292,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-14.2.4.tgz#70c71e07c2a85bc460f6c543f9b92b3628f42709"
   integrity sha512-wyvJOur3bLV/JRybLY+rPeGqT9r4cUqLJGNDxllxZy1+NHjQxnZeyEE0Z0Y1mwHKhTzHk/xy1Ouv4xrbl2U1YQ==
 
+"@react-native-picker/picker@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-2.2.1.tgz#32b9f540d8e88a73d8856f73cca88251cecb9614"
+  integrity sha512-EC7yv22QLHlTfnbC1ez9IUdXTOh1W31x96Oir0PfskSGFFJMWWdLTg4VrcE2DsGLzbfjjkBk123c173vf2a5MQ==
+
 "@react-native/assets@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@react-native/assets/-/assets-1.0.0.tgz#c6f9bf63d274bafc8e970628de24986b30a55c8e"
