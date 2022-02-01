@@ -1,17 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { StyleSheet,
          Text, 
          View, 
          TouchableOpacity, 
          Dimensions, 
-         StatusBar
+         StatusBar,
          }
         from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import * as Animatable from 'react-native-animatable';
+import {Picker} from '@react-native-picker/picker';
 
 const WelcomeScreen = ({navigation}) => {
+    // this state is for react native picker
+    const [selectedValue, setSelectedValue] = useState('Student');
     return (
         <View style={styles.container}>
             <StatusBar backgroundColor='#729875' barStyle='light-content' />
@@ -28,6 +31,14 @@ const WelcomeScreen = ({navigation}) => {
                 
                 <Text style={styles.title}>Stay Connected With Us!</Text>
                 <Text style={styles.text}>Sign in With Account</Text>
+                {/* this code is for react native picker */}
+                <Picker
+                mode={'dropdown'}
+                selectedValue={selectedValue}
+                onValueChange={(itemValue) => setSelectedValue(itemValue)}>
+                    <Picker.Item label='Admin' value='Admin' />
+                    <Picker.Item label='Student' value='Student' />
+                </Picker>
                 <View style={styles.button}>
                     <TouchableOpacity 
                     onPress={() => navigation.navigate('SignInScreen')}
@@ -46,7 +57,6 @@ const WelcomeScreen = ({navigation}) => {
                     </TouchableOpacity>
                 </View>
             </Animatable.View>
-
         </View>
     )
 }
