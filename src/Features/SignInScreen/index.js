@@ -75,7 +75,8 @@ const SignInScreen = ({navigation}) => {
     }
 
     const handleValidUser = (userEmail) => {
-        if( userEmail.length >= 4 ) {
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        if( userEmail.length >= reg.test(userEmail) ) {
             setData({
                 ...data,
                 isValidUserEmail: true
@@ -144,7 +145,7 @@ const SignInScreen = ({navigation}) => {
             {/* User Validation */}
             {data.isValidUserEmail ? null : 
             <Animatable.View animation='fadeInLeft' duration={500}>
-            <Text style={styles.errorMsg}>Username must be 4 characters long</Text>
+            <Text style={styles.errorMsg}>Email address required </Text>
             </Animatable.View>
             }
             {/* Password Field */}

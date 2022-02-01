@@ -136,8 +136,8 @@ const SignUpScreen = ({navigation}) => {
         }
     }
     const handleValidUserEmail = (userEmail) => {
-        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-        if( userEmail.length == reg.test(userEmail) ) {
+        // let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        if( userEmail.length == 0 ) {
             setData({
                 ...data,
                 isValidUserEmail: true
@@ -227,7 +227,7 @@ const SignUpScreen = ({navigation}) => {
             {/* User Validation */}
             {data.isValidUserEmail ? null : 
                 <Animatable.View animation='fadeInLeft' duration={500}>
-                <Text style={styles.errorMsg}>Email address is required </Text>
+                <Text style={styles.errorMsg}>Email address require</Text>
                 </Animatable.View>
             }
 
