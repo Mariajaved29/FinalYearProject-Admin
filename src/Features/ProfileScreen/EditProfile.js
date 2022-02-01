@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useContext, useState} from 'react'
 import { 
    View,
    Text,
@@ -8,6 +8,8 @@ import {
    TextInput,
    ScrollView,
    StatusBar,
+   Alert,
+
    } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
@@ -16,11 +18,16 @@ import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
 import ImagePicker from 'react-native-image-crop-picker';
 
+import { AuthContext } from '../../Navigation/AuthProvider';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
+
 const EditProfile = ({navigation}) => {
 
-// This is for passing values Editprofile to ProfileScreen
+// this is for passing values Editprofile to ProfileScreen
 
-    // const [firstname, setFirstname] = useState('Sobia');
+    const {user, logout} = useContext(AuthContext);
+    // const [firstname, setFirstname] = useState('');
     // const [lastname, setLastname] = useState('');
     // const [location, setLocation] = useState('');
     // const [email, setEmail] = useState('');
@@ -28,108 +35,229 @@ const EditProfile = ({navigation}) => {
     // const [dateofbirth, setDateofbirth] = useState('');
     // const [course, setCourse] = useState('');
     // const [about, setAbout] = useState('');
-// End
+    const [image, setImage] = useState(null);
+    const [uploading, setUploading] = useState(false);
+    const [transferred, setTransferred] = useState(0);
+    const [userData, setUserData] = useState(null);
+    // End
 
-// profile picture editor field
-  const [image, setImage] = useState('https://cdn2.iconfinder.com/data/icons/people-round-icons/130/arab-512.png')
-  const takePhoto = () => {
-    ImagePicker.openCamera({
-      compressImageMaxWidth: 300,
-      compressImageMaxHeight: 300,
-      cropping: true,
-      compressImageQuality: 0.7
-    }).then(image => {
-      console.log(image);
-      setImage(image.path);
-    });
-  }
-  const ChooseFromGallery = () => {
-    ImagePicker.openPicker({
-      width: 300,
-      height: 300,
-      cropping: true,
-      compressImageQuality: 0.7
-    }).then(image => {
-      console.log(image);
-      setImage(image.path);
-      
-    });
-  }
+    const getUser = async() => {
+      const currentUser = await firestore()
+      .collection('users')
+      .doc(user.uid)
+      .get()
+      .then((documentSnapshot) => {
+        if( documentSnapshot.exists ) {
+          console.log('User Data', documentSnapshot.data());
+          setUserData(documentSnapshot.data());
+        }
+      })
+    }
+
+    const handleUpdate = async() => {
+      let imgUrl = await uploadImage();
+  
+      if( imgUrl == null && userData.userImg ) {
+        imgUrl = userData.userImg;
+      }
+
+      const updatedUserData = {
+        userImg: imgUrl || '',
+        fname: userData.fname || '',
+        lname: userData.lname || '',
+        email: userData.email || '',
+        phone: userData.phone || '',
+        location: userData.location || '',
+        dataofbirth: userData.dataofbirth || '',
+        about: userData.about || '',
+      }
+
+      console.log({updatedUserData})
+  
+      firestore()
+      .collection('users')
+      .doc(user.uid)
+      .update(updatedUserData)
+      .then(() => {
+        console.log('User Updated!');
+        Alert.alert(
+          'Profile Updated!',
+          'Your profile has been updated successfully.'
+        );
+      })
+    }
+
+    const uploadImage = async () => {
+      if( image == null ) {
+        return null;
+      }
+      const uploadUri = image;
+      let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+  
+      // Add timestamp to File Name
+      const extension = filename.split('.').pop(); 
+      const name = filename.split('.').slice(0, -1).join('.');
+      filename = name + Date.now() + '.' + extension;
+  
+      setUploading(true);
+      setTransferred(0);
+  
+      const storageRef = storage().ref(`photos/${filename}`);
+      const task = storageRef.putFile(uploadUri);
+  
+      // Set transferred state
+      task.on('state_changed', (taskSnapshot) => {
+        console.log(
+          `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+        );
+  
+        setTransferred(
+          Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
+            100,
+        );
+      });
+  
+      try {
+        await task;
+  
+        const url = await storageRef.getDownloadURL();
+  
+        setUploading(false);
+        setImage(null);
+  
+        // Alert.alert(
+        //   'Image uploaded!',
+        //   'Your image has been uploaded to the Firebase Cloud Storage Successfully!',
+        // );
+        return url;
+  
+      } catch (e) {
+        console.log(e);
+        return null;
+      }
+  
+    };
+
+    useEffect(() => {
+      getUser();
+    }, []);
+  
+    // profile picture editor field
+    // const [image, setImage] = useState('https://cdn2.iconfinder.com/data/icons/people-round-icons/130/arab-512.png')
+    const takePhoto = () => {
+      ImagePicker.openCamera({
+        compressImageMaxWidth: 300,
+        compressImageMaxHeight: 300,
+        cropping: true,
+        compressImageQuality: 0.7
+      }).then(image => {
+        console.log(image);
+        const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
+        setImage(imageUri);
+        bs.current.snapTo(1);
+      });
+    }
+    const ChooseFromGallery = () => {
+      ImagePicker.openPicker({
+        width: 300,
+        height: 300,
+        cropping: true,
+        compressImageQuality: 0.7
+      }).then(image => {
+        console.log(image);
+        const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
+        setImage(imageUri);
+        bs.current.snapTo(1);
+        
+      });
+    };
+    // End
+
+  // this code is for Bottom sheet 
+  const renderInner = () => (
+    <View style={styles.panel}>
+      <View style={{alignItems:'center'}}>
+        <Text style={styles.panelTitle}>Upload Photo</Text>
+        <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
+      </View>
+      <TouchableOpacity style={styles.panelButton}
+      onPress={takePhoto}>
+        <Text style={styles.panelButtonTitle}>Take Photo</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.panelButton}
+      onPress={ChooseFromGallery}>
+        <Text style={styles.panelButtonTitle}>Upload Photo from Gallery</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.panelButton}
+      onPress={() => bs.current.snapTo(1)}>
+        <Text style={styles.panelButtonTitle}>Cancel</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const renderHeader = () => (
+      <View style={styles.header}>
+        <View style={styles.panelHeader}>
+          <View style={styles.panelHandle}/>
+
+        </View>
+      </View>
+    );
+   const bs = React.createRef();
+   const fall = new Animated.Value(1);
   // End
 
-  // This code is for Bottom sheet 
-const renderInner = () => (
-   <View style={styles.panel}>
-    <View style={{alignItems:'center'}}>
-      <Text style={styles.panelTitle}>Upload Photo</Text>
-      <Text style={styles.panelSubtitle}>Choose Your Profile Picture</Text>
-    </View>
-    <TouchableOpacity style={styles.panelButton}
-     onPress={takePhoto}>
-      <Text style={styles.panelButtonTitle}>Take Photo</Text>
-    </TouchableOpacity>
-    <TouchableOpacity style={styles.panelButton}
-     onPress={ChooseFromGallery}>
-      <Text style={styles.panelButtonTitle}>Upload Photo from Gallery</Text>
-    </TouchableOpacity>
-    <TouchableOpacity style={styles.panelButton}
-     onPress={() => bs.current.snapTo(1)}>
-      <Text style={styles.panelButtonTitle}>Cancel</Text>
-    </TouchableOpacity>
-    </View>
-  );
-const renderHeader = () => (
-    <View style={styles.header}>
-      <View style={styles.panelHeader}>
-        <View style={styles.panelHandle}/>
-
-      </View>
-    </View>
-  );
-const bs = React.createRef();
-const fall = new Animated.Value(1);
-// End
   return (
     <ScrollView>
-    <View style={styles.container}>
-    <StatusBar backgroundColor='#729875' barStyle='light-content' />
-    {/* Bottom sheet */}
-    <BottomSheet
-      ref={bs}
-      snapPoints={[330, 0]}
-      renderContent={renderInner}
-      renderHeader={renderHeader}
-      initialSnap={1}
-      callbackNode={fall}
-      enabledGestureInteraction={true}
-      />
-      <Animated.View style={{margin: 20,
-      opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
-      }}>
-        <View style={{alignItems: 'center'}}>
-          <TouchableOpacity 
-          onPress={() => bs.current.snapTo(0) }>
-            <View style={{
-              height: 100,
-              width: 100,
-              borderRadius: 15,
-              justifyContent:'center',
-              alignItems: 'center'
-            }}>
-              <ImageBackground
-              source={{uri: image}}
-              style={{height:100, width:100}}
-              imageStyle={{borderRadius:15}}
-              >
+      <View style={styles.container}>
+      <StatusBar backgroundColor='#729875' barStyle='light-content' />
+      {/* Bottom sheet */}
+      <BottomSheet
+        ref={bs}
+        snapPoints={[330, 0]}
+        renderContent={renderInner}
+        renderHeader={renderHeader}
+        initialSnap={1}
+        callbackNode={fall}
+        enabledGestureInteraction={true}
+        />
+        <Animated.View 
+        style={{
+          margin: 20,
+          opacity: Animated.add(0.1, Animated.multiply(fall, 1.0)),
+        }}>
+          <View style={{alignItems: 'center'}}>
+            <TouchableOpacity 
+              onPress={() => bs.current.snapTo(0) }>
                 <View style={{
-                  flex:1,
-                  justifyContent: 'center',
+                  height: 100,
+                  width: 100,
+                  borderRadius: 15,
+                  justifyContent:'center',
                   alignItems: 'center'
                 }}>
-                  <Icon name='camera' size={20} color='#000'
+                <ImageBackground
+                source={{
+                  uri: image
+                  ? image
+                  : userData
+                  ? userData.userImg ||
+                    'https://cdn2.iconfinder.com/data/icons/people-round-icons/130/arab-512.png'
+                    : 'https://cdn2.iconfinder.com/data/icons/people-round-icons/130/arab-512.png',
+                }}
+                style={{height:100, width:100}}
+                imageStyle={{borderRadius:15}}
+                >
+                  <View 
                   style={{
-                    opacity: 0.7,
-                    alignItems: 'center',
+                    flex:1,
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}>
+                    <Icon name='camera' size={20} color='#000'
+                    style={{
+                      opacity: 0.7,
+                      alignItems: 'center',
                     justifyContent: 'center',
                     // borderWidth: 1,
                     // borderColor: '#fff',
@@ -140,7 +268,7 @@ const fall = new Animated.Value(1);
               </ImageBackground>
             </View>
           </TouchableOpacity>
-          {/* <Text>{firstname}</Text> */}
+          <Text>{userData ? userData.fname : ''} {userData ? userData.lname : ''}</Text>
           </View>
           {/* End */}
 
@@ -152,10 +280,10 @@ const fall = new Animated.Value(1);
           placeholder='First Name'
           placeholderTextColor='#666666'
           autoCorrect={false}
-          // onChange={(firstname) => setFirstname(firstname.target.value)}
-          // value={firstname}
+          onChangeText={(txt) => setUserData({...userData, fname: txt})}
+          value={userData ? userData.fname : ''}
           style={styles.textInput}
-          />
+        />
         </View>
         <View style={styles.action}>
           <FontAwesome name='user-o' size={20} />
@@ -163,6 +291,8 @@ const fall = new Animated.Value(1);
           placeholder='Last Name'
           placeholderTextColor='#666666'
           autoCorrect={false}
+          value={userData ? userData.lname : ''}
+          onChangeText={(txt) => setUserData({...userData, lname: txt})}
           style={styles.textInput}
           />
         </View>
@@ -172,6 +302,8 @@ const fall = new Animated.Value(1);
           placeholder='Location'
           placeholderTextColor='#666666'
           autoCorrect={false}
+          value={userData ? userData.location : ''}
+          onChangeText={(txt) => setUserData({...userData, location: txt})}
           style={styles.textInput}
           />
         </View>
@@ -182,6 +314,8 @@ const fall = new Animated.Value(1);
           placeholderTextColor='#666666'
           keyboardType='email-address'
           autoCorrect={false}
+          value={userData ? userData.email : ''}
+          onChangeText={(txt) => setUserData({...userData, email: txt})}
           style={styles.textInput}
           />
         </View>
@@ -192,15 +326,8 @@ const fall = new Animated.Value(1);
           placeholderTextColor='#666666'
           keyboardType='number-pad'
           autoCorrect={false}
-          style={styles.textInput}
-          />
-        </View>
-        <View style={styles.action}>
-          <FontAwesome name='birthday-cake' size={20} />
-          <TextInput
-          placeholder='Date of Birth'
-          placeholderTextColor='#666666'
-          autoCorrect={false}
+          value={userData ? userData.phone : ''}
+          onChangeText={(txt) => setUserData({...userData, phone: txt})}
           style={styles.textInput}
           />
         </View>
@@ -210,6 +337,8 @@ const fall = new Animated.Value(1);
           placeholder='Course'
           placeholderTextColor='#666666'
           autoCorrect={false}
+          value={userData ? userData.course : ''}
+          onChangeText={(txt) => setUserData({...userData, course: txt})}
           style={styles.textInput}
           />
         </View>
@@ -221,6 +350,8 @@ const fall = new Animated.Value(1);
           numberOfLines={2}
           placeholderTextColor='#666666'
           autoCorrect={false}
+          value={userData ? userData.about : ''}
+          onChangeText={(txt) => setUserData({...userData, about: txt})}
           style={styles.textInput}
           />
         </View>
@@ -228,9 +359,9 @@ const fall = new Animated.Value(1);
 
         {/* Submit Button */}
         <TouchableOpacity style={styles.commandButton}
-        onPress={() => navigation.navigate('ProfileScreen')
+        // onPress={() => navigation.navigate('ProfileScreen')
+        onPress={ handleUpdate }
         // , { firstNameData: firstname, })
-      } 
         >
           <Text style={styles.panelButtonTitle}>Submit</Text>
         </TouchableOpacity>
