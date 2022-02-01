@@ -3,24 +3,102 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/Ionicons'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-
-import {View} from 'react-native';
 import CustomDrawer from '../Components/CustomDrawer';
-
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import ProfileScreen from '../Features/ProfileScreen';
 import MessagesScreen from '../Features/MessagesScreen';
-import MomentsScreen from '../Features/MomentsScreen';
-import SettingsScreen from '../Features/SettingsScreen';
-import EditProfile from '../Features/ProfileScreen/EditProfile'
+import Contact from '../Features/Contact';
+import EditProfile from '../Features/ProfileScreen/EditProfile';
+import CoursesDetailsScreen from '../Features/CoursesDetailsScreen';
+import BooksDetailsScreen from '../Features/BoooksDetailsScreen';
+import HomeScreen from '../Features/HomeScreen'
 
 import TabNavigator from './TabNavigator';
-import CoursesDetailsScreen from '../Features/CoursesDetailsScreen';
+import TimeTable from '../Features/TimeTable';
+
 const Drawer = createDrawerNavigator();
 const ProfileStack = createNativeStackNavigator();
+const HomeStack = createNativeStackNavigator();
+
+const ProfileStackScreen = ({navigation}) => {
+  return(
+    <ProfileStack.Navigator 
+      screenOptions={{
+        headerStyle:{
+          backgroundColor: '#c1e3ca',
+          shadowColor: '#c1e3ca',
+          elevation: 0,
+        },
+      }}>
+      <ProfileStack.Screen
+        name='ProfileScreen'
+        component={ProfileScreen}
+        options={{
+          title:'',
+          headerLeft:() =>(
+            <Icon.Button
+              name='ios-menu'
+              size={25}
+              backgroundColor='#c1e3ca'
+              color='#000'
+              onPress={() => navigation.openDrawer()}
+            />
+          ),
+          headerRight: () => (
+            <MaterialCommunityIcons.Button
+              name='account-edit'
+              size={25}
+              backgroundColor='#c1e3ca'
+              color='#000'
+              onPress={() => navigation.navigate('EditProfile')}
+            />
+          )
+        }}
+      /> 
+      <ProfileStack.Screen 
+        name='EditProfile'
+        options={{
+         title: 'Edit Profile'
+        }}
+        component={EditProfile}
+      />
+    </ProfileStack.Navigator>
+  );
+};
+
+
+const Dashboard = () => {
+  // Stack Navigator for Home Screen
+  return (
+    <HomeStack.Navigator initialRouteName="HomeScreen" screenOptions={{
+      headerStyle:{
+        backgroundColor: '#c1e3ca'
+       }
+    }}>
+      <HomeStack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{headerShown: false}}
+      />
+      <HomeStack.Screen
+        name="TimeTable"
+        component={TimeTable}
+      />
+      <HomeStack.Screen
+        name="MessagesScreen"
+        component={MessagesScreen}
+      />
+      <HomeStack.Screen
+        name="Notification"
+        component={Notification}
+        onPress={() => navigation.navigate('Notification')}
+      />
+    </HomeStack.Navigator>
+  );
+};
 
 const AuthStack = () => {
+  
   return (
       <Drawer.Navigator
         drawerContent={props => <CustomDrawer {...props} />}
@@ -41,13 +119,13 @@ const AuthStack = () => {
         >
         <Drawer.Screen
           name="Home"
-          component={TabNavigator}
+          component={Dashboard}
           options={{
+            headerShown: false,
             drawerIcon: ({color}) => (
-              <Ionicons name="home-outline" size={22} color={color} />
+              <MaterialCommunityIcons name="home-variant-outline" size={22} color={color} />
             ),
-          }}
-          
+          }}       
         />
         <Drawer.Screen
           name="Profile"
@@ -55,43 +133,34 @@ const AuthStack = () => {
           options={{
             headerShown: false,
             drawerIcon: ({color}) => (
-              <Ionicons name="person-outline" size={22} color={color} />
+              <MaterialCommunityIcons name="account-details-outline" size={22} color={color} />
             ),
           }}
         />
         <Drawer.Screen
-          name="Messages"
-          component={MessagesScreen}
-          options={{
-            drawerIcon: ({color}) => (
-              <Ionicons name="chatbox-ellipses-outline" size={22} color={color} />
-            ),
-          }}
-        />
-      <Drawer.Screen
           name="Courses"
           component={CoursesDetailsScreen}
           options={{
             drawerIcon: ({color}) => (
-              <Ionicons name="book-outline" size={22} color={color} />
+              <MaterialCommunityIcons name="notebook-outline" size={22} color={color} />
             ),
           }}
         />
         <Drawer.Screen
-          name="Moments"
-          component={MomentsScreen}
+          name="Books"
+          component={BooksDetailsScreen}
           options={{
             drawerIcon: ({color}) => (
-              <Ionicons name="timer-outline" size={22} color={color} />
+              <MaterialCommunityIcons name="book-multiple-outline" size={22} color={color} />
             ),
           }}
         />
         <Drawer.Screen
-          name="Settings"
-          component={SettingsScreen}
+          name="Contact"
+          component={Contact}
           options={{
             drawerIcon: ({color}) => (
-              <Ionicons name="settings-outline" size={22} color={color} />
+              <MaterialCommunityIcons name="contacts-outline" size={22} color={color} />
             ),
           }}
         />
@@ -99,50 +168,5 @@ const AuthStack = () => {
   );
 };
 
-const ProfileStackScreen = ({navigation}) => {
-  return(
-  <ProfileStack.Navigator 
-  screenOptions={{
-    headerStyle:{
-      backgroundColor: '#c1e3ca',
-      shadowColor: '#c1e3ca',
-      elevation: 0,
-    },
-  }}>
-    <ProfileStack.Screen
-    name='ProfileScreen'
-    component={ProfileScreen}
-    options={{
-      title:'',
-      headerLeft:() =>(
-        <Icon.Button
-        name='ios-menu'
-        size={25}
-        backgroundColor='#c1e3ca'
-        color='#000'
-        onPress={() => navigation.openDrawer()}
-        />
-      ),
-      headerRight: () => (
-        <MaterialCommunityIcons.Button
-        name='account-edit'
-        size={25}
-        backgroundColor='#c1e3ca'
-        color='#000'
-        onPress={() => navigation.navigate('EditProfile')}
-        />
-      )
-    }}
-       /> 
-       <ProfileStack.Screen 
-       name='EditProfile'
-       options={{
-         title: 'Edit Profile'
-       }}
-       component={EditProfile}
-       />
-  </ProfileStack.Navigator>
-  )
-}
 export default AuthStack;
 
