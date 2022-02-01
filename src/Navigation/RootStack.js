@@ -25,35 +25,16 @@ const Auth = () => {
           name="SignInScreen"
           component={SignInScreen}
           options={{headerShown: false}}
-        //   options={{
-        //     title: 'SignInScreen', //Set Header Title
-        //     headerStyle: {
-        //       backgroundColor: '#307ecc', //Set Header color
-        //     },
-        //     headerTintColor: '#fff', //Set Header text color
-        //     headerTitleStyle: {
-        //       fontWeight: 'bold', //Set Header text style
-        //     },
-        //   }}
         />
         <Root.Screen
           name="SignUpScreen"
           component={SignUpScreen}
           options={{headerShown: false}}
-        //   options={{
-        //     title: 'SignUpScreen', //Set Header Title
-        //     headerStyle: {
-        //       backgroundColor: '#307ecc', //Set Header color
-        //     },
-        //     headerTintColor: '#fff', //Set Header text color
-        //     headerTitleStyle: {
-        //       fontWeight: 'bold', //Set Header text style
-        //     },
-        //   }}
         />
       </Root.Navigator>
     );
   };
+  
 const RootStack = ({navigation}) => (
   
     // <Root.Navigator headerMode='none' screenOptions={{
