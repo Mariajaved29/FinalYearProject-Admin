@@ -15,6 +15,7 @@ import HomeScreen from '../Features/HomeScreen'
 
 import TabNavigator from './TabNavigator';
 import TimeTable from '../Features/TimeTable';
+import Notification from '../Features/Notification';
 
 const Drawer = createDrawerNavigator();
 const ProfileStack = createNativeStackNavigator();
