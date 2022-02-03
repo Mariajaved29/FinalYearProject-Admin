@@ -24,17 +24,8 @@ import storage from '@react-native-firebase/storage';
 
 const EditProfile = ({navigation}) => {
 
-// this is for passing values Editprofile to ProfileScreen
-
+    // this is for passing values Editprofile to ProfileScreen
     const {user, logout} = useContext(AuthContext);
-    // const [firstname, setFirstname] = useState('');
-    // const [lastname, setLastname] = useState('');
-    // const [location, setLocation] = useState('');
-    // const [email, setEmail] = useState('');
-    // const [phone, setPhone] = useState('');
-    // const [dateofbirth, setDateofbirth] = useState('');
-    // const [course, setCourse] = useState('');
-    // const [about, setAbout] = useState('');
     const [image, setImage] = useState(null);
     const [uploading, setUploading] = useState(false);
     const [transferred, setTransferred] = useState(0);
@@ -68,7 +59,7 @@ const EditProfile = ({navigation}) => {
         email: userData.email || '',
         phone: userData.phone || '',
         location: userData.location || '',
-        dataofbirth: userData.dataofbirth || '',
+        Course: userData.Course || '',
         about: userData.about || '',
       }
 
@@ -125,14 +116,15 @@ const EditProfile = ({navigation}) => {
         setUploading(false);
         setImage(null);
   
-        // Alert.alert(
+        Alert.alert(
         //   'Image uploaded!',
         //   'Your image has been uploaded to the Firebase Cloud Storage Successfully!',
-        // );
+        );
         return url;
   
       } catch (e) {
         console.log(e);
+        alert(e)
         return null;
       }
   
@@ -143,14 +135,13 @@ const EditProfile = ({navigation}) => {
     }, []);
   
     // profile picture editor field
-    // const [image, setImage] = useState('https://cdn2.iconfinder.com/data/icons/people-round-icons/130/arab-512.png')
     const takePhoto = () => {
       ImagePicker.openCamera({
         compressImageMaxWidth: 300,
         compressImageMaxHeight: 300,
         cropping: true,
-        compressImageQuality: 0.7
-      }).then(image => {
+        compressImageQuality: 0.7,
+      }).then((image) => {
         console.log(image);
         const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
         setImage(imageUri);
@@ -162,8 +153,8 @@ const EditProfile = ({navigation}) => {
         width: 300,
         height: 300,
         cropping: true,
-        compressImageQuality: 0.7
-      }).then(image => {
+        compressImageQuality: 0.7,
+      }).then((image) => {
         console.log(image);
         const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
         setImage(imageUri);
@@ -249,11 +240,12 @@ const EditProfile = ({navigation}) => {
                 imageStyle={{borderRadius:15}}
                 >
                   <View 
-                  style={{
-                    flex:1,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}>
+                    style={{
+                      flex:1,
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}
+                  >
                     <Icon name='camera' size={20} color='#000'
                     style={{
                       opacity: 0.7,
