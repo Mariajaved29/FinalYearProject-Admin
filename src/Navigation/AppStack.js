@@ -35,7 +35,7 @@ const ProfileStackScreen = ({navigation}) => {
         name='ProfileScreen'
         component={ProfileScreen}
         options={{
-          title:'',
+          title:'Profile',
           headerLeft:() =>(
             <Icon.Button
               name='ios-menu'
@@ -68,7 +68,7 @@ const ProfileStackScreen = ({navigation}) => {
 };
 
 
-const Dashboard = () => {
+const Dashboard = ({navigation}) => {
   // Stack Navigator for Home Screen
   return (
     <HomeStack.Navigator initialRouteName="HomeScreen" screenOptions={{
@@ -79,8 +79,35 @@ const Dashboard = () => {
       <HomeStack.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{headerShown: false}}
-      />
+        options={{
+              title:'مدرسہ عربیہ صفہ للبنات',
+              headerTitleAlign: 'center',
+              headerTitleStyle: {
+                fontSize: 25, 
+                color: '#729875', 
+              },
+              headerLeft:() =>(
+                <Icon.Button
+                  name='menu'
+                  size={25}
+                  backgroundColor='#c1e3ca'
+                  color='#000'
+                  onPress={() => navigation.openDrawer()}  
+                />
+              ),
+              
+              headerRight: () => (
+                <MaterialCommunityIcons.Button
+                  name='bell'
+                  size={25}
+                  backgroundColor='#c1e3ca'
+                  color='#000'
+                  badge='3'
+                  onPress={() => navigation.navigate('Notification')}
+                />
+              )
+            }}
+        />
       <HomeStack.Screen
         name="TimeTable"
         component={TimeTable}
