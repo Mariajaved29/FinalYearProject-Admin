@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -13,11 +13,33 @@ import {
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { AuthContext } from '../Navigation/AuthProvider';
+import firestore from '@react-native-firebase/firestore';
+
 
 const CustomDrawer = props => {
 
-  // const { user, logout } = useContext(AuthContext);
   const { user, logout } = useContext(AuthContext);
+
+  const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState(null);
+
+  const getUser = async() => {
+    await firestore()
+    .collection('users')
+    .doc( user.uid)
+    .get()
+    .then((documentSnapshot) => {
+      if( documentSnapshot.exists ) {
+        console.log('User Data', documentSnapshot.data());
+        setUserData(documentSnapshot.data());
+      }
+    })
+  }
+
+  useEffect(() => {
+    getUser();
+    // navigation.addListener("focus", () => setLoading(!loading));
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>
@@ -28,7 +50,8 @@ const CustomDrawer = props => {
           source={require('../assets/images/menu-bg.jpg')}
           style={{ padding: 20 }}>
           <Image
-            source={require('../assets/images/user-profile.jpg')}
+            source={{uri: userData ? userData.userImg || '../../assets/user.png' : '../../assets/user.png' }}
+            // source={user.userImg}
             style={{ height: 80, width: 80, borderRadius: 40, marginBottom: 10 }}
           />
           <Text
@@ -39,7 +62,7 @@ const CustomDrawer = props => {
               fontFamily: 'Roboto-Medium',
               marginBottom: 5,
             }}>
-            {user.email}
+              {userData ? userData.fname || 'Your' : 'Your'} {userData ? userData.lname || 'Name' : 'Name'}
           </Text>
           <View style={{ flexDirection: 'row' }}>
 
