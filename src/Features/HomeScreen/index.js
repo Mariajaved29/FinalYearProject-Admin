@@ -10,8 +10,6 @@ import React from 'react';
      StatusBar
      } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';   
-import Feather from 'react-native-vector-icons/Feather';
 
 const HomeScreen = ({navigation}) => {
   return (
@@ -19,27 +17,7 @@ const HomeScreen = ({navigation}) => {
       <View style={styles.container}>
       <StatusBar backgroundColor='#729875' barStyle='light-content' />
         <View style={styles.header}>
-          <Ionicons.Button 
-            name='ios-menu' 
-            size={27}  
-            backgroundColor='#c1e3ca' 
-            color='#729875'
-            onPress={() => navigation.openDrawer()}>
-              <Text style={styles.heading}>مدرسہ عربیہ صفہ للبنات</Text>
-              <Feather.Button
-                name="bell" 
-                size={27}  
-                backgroundColor='#c1e3ca' 
-                color='#729875'
-                style={styles.headerIcon}
-                options={{
-                  tabBarBadge: 3,
-                  tabBarBadgeStyle: {backgroundColor: '#729875'},
-                }}
-                  // onPress={() => navigation.navigate('Notification')}
-              />
-          </Ionicons.Button>
-          <Image source={require('../../assets/masjid.png')} style={{height: 300}}></Image>
+          <Image source={require('../../assets/masjid.png')} style={{height: 330, width: 450}}></Image>
         </View>
             
         <View style={styles.footer}>
@@ -65,7 +43,7 @@ const HomeScreen = ({navigation}) => {
               <View style={styles.iconBox}> 
                 <View style={styles.icon}>
                   <TouchableOpacity onPress={() => navigation.navigate('MessagesScreen')}>
-                    <MaterialCommunityIcons name= 'chat-outline' color= '#729875' size= {40} />
+                    <MaterialCommunityIcons name= 'chat-processing' color= '#729875' size= {40} />
                   </TouchableOpacity>
                 </View>
                 <Text style={styles.mainBox_text}>News</Text>
@@ -93,14 +71,15 @@ const HomeScreen = ({navigation}) => {
     },
     header: {
         flex: 1,
-        height: 335
+        height: 300
     },
     footer: {
         flex: 3,
         backgroundColor: '#edf5f0',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
-        paddingHorizontal: 20,
+        paddingTop: 20,
+        paddingHorizontal: 30,
         paddingVertical: 30
     },
     mainBox: {
@@ -138,6 +117,7 @@ const HomeScreen = ({navigation}) => {
       marginTop: 5, 
       marginBottom: 5,
       marginLeft: 50,
+      marginRight:30
       // fontWeight: 'bold'
      },
     paragraph: {
