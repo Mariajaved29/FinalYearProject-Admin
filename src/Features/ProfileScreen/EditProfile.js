@@ -12,8 +12,7 @@ import {
 
    } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import Feather from 'react-native-vector-icons/Feather'
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -25,7 +24,7 @@ import storage from '@react-native-firebase/storage';
 const EditProfile = ({navigation}) => {
 
     // this is for passing values Editprofile to ProfileScreen
-    const {user, logout} = useContext(AuthContext);
+    const {user} = useContext(AuthContext);
     const [image, setImage] = useState(null);
     const [uploading, setUploading] = useState(false);
     const [transferred, setTransferred] = useState(0);
@@ -33,7 +32,7 @@ const EditProfile = ({navigation}) => {
     // End
 
     const getUser = async() => {
-      const currentUser = await firestore()
+      await firestore()
       .collection('users')
       .doc(user.uid)
       .get()
@@ -267,7 +266,7 @@ const EditProfile = ({navigation}) => {
           {/* TextInput fields of Edit profile */}
          
         <View style={styles.action}>
-          <FontAwesome name='user-o' size={20} />
+          <FontAwesome name='user' size={20} />
           <TextInput
           placeholder='First Name'
           placeholderTextColor='#666666'
@@ -278,7 +277,7 @@ const EditProfile = ({navigation}) => {
         />
         </View>
         <View style={styles.action}>
-          <FontAwesome name='user-o' size={20} />
+          <FontAwesome name='user' size={20} />
           <TextInput
           placeholder='Last Name'
           placeholderTextColor='#666666'
@@ -300,7 +299,7 @@ const EditProfile = ({navigation}) => {
           />
         </View>
         <View style={styles.action}>
-          <FontAwesome name='envelope-o' size={20} />
+          <FontAwesome name='envelope' size={20} />
           <TextInput
           placeholder='Email'
           placeholderTextColor='#666666'
@@ -335,7 +334,7 @@ const EditProfile = ({navigation}) => {
           />
         </View>
         <View style={styles.action}>
-          <FontAwesome name='bookmark-o' size={20} />
+          <FontAwesome name='bookmark' size={20} />
           <TextInput
           placeholder='About'
           multiline={true}
