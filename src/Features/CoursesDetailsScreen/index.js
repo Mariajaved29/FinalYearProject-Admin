@@ -1,200 +1,292 @@
-import { 
-    View, 
-    Text, 
-    StyleSheet, 
+import {
+    SafeAreaView,
+    StyleSheet,
+    View,
+    Text,
     ScrollView,
- } from 'react-native';
-import React from 'react';
+    UIManager,
+    TouchableOpacity,
+    Platform,
+    LayoutAnimation,
+    TextInput
+  } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const CoursesDetailsScreen = () => {
+const CONTENT = [
+    {
+        isExpanded: false,
+        category_name: 'ختم نبوت کورس',
+        subcategory: [
+        {id:1, val:'اس کورس میں عقیدہ ختم نبوت اور قادیانیت کے دجل و فریب سے متعلق پڑھایا جائے گا۔ ان شاء اللہ'},
+        {id: 2, val: 'وقت : ۴۰ منٹ'},
+        {id:3, val:'دورانیہ : ۴۰ یوم'}
+        ],
+    },
+    {
+        isExpanded: false,
+        category_name: 'سیرت النبی کورس',
+        subcategory: [
+        {id:4, val:'اس کورس میں سیرت رسول صلی اللہ علیہ وسلم  کے متعلق پڑھایا جائے گا۔'},
+        {id: 5, val: 'وقت : ۴۰ منٹ'},
+        {id:6, val:'دورانیہ : ۴۰ یوم'}
+        ],
+    },
+    {
+        isExpanded: false,
+        category_name: 'فہم رمضان کورس',
+        subcategory: [
+        {id:7, val:'اس کورس میں آپ سیکھیں گے استقبال رمضان، حقوق رمضان، اعمال رمضان، مسائل رمضان'},
+        {id: 8, val: 'وقت : ۴۰ منٹ'},
+        {id:9, val:'دورانیہ : شعبان تاریخ ۱ تا ۲۵'}
+        ],
+    },
+    {
+        isExpanded: false,
+        category_name: 'حفظ چہل احادیث کورس',
+        subcategory: [
+        {id:10, val:'اس کورس میں چہل احادیث حفظ کروائی جائیں گی'},
+        {id: 11, val: 'وقت : ۴۰ منٹ'},
+        {id:12, val:' دورانیہ : ۴۰ یوم'}
+        ],
+    },
+    {
+        isExpanded: false,
+        category_name: 'دورۂ ترجمہ و تفسیر',
+        subcategory: [
+        {id:13, val:'قرآن پاک کی ترجمہ تفسیر سیکھنے کے لیے مختصر دورانیہ کا مفید کورس'},
+        {id:14, val: 'وقت : ۴۰ منٹ'},
+        {id:15, val:'دورانیہ :-----'}
+        ],
+    },
+    {
+        isExpanded: false,
+        category_name: 'دورہ بخاری شریف',
+        subcategory: [
+        {id:16, val:'اس کورس میں بخاری شریف کی احادیث کا دورہ کروایا جائے گا'},
+        {id: 17, val: 'وقت : ۴۰ منٹ'},
+        {id:18, val:'دورانیہ : -----'}
+        ],
+    },
+    {
+        isExpanded: false,
+        category_name: 'تخصص فی العربیہ کورس',
+        subcategory: [
+        {id:19, val:'اس کورس میں بخاری شریف کی احادیث کا دورہ کروایا جائے گا'},
+        {id: 20, val: ' وقت :  8 : 00 تا 2 : 00'},
+        {id:21, val:'دورانیہ :  2 سال'}
+        ],
+    },
+    {
+        isExpanded: false,
+        category_name: 'تجوید (قاعدہ/قرآن پاک)',
+        subcategory: [
+        {id:22, val:'اس کورس میں بخاری شریف کی احادیث کا دورہ کروایا جائے گا'},
+        {id: 23, val: ' وقت :  8 : 00 تا 2 : 00'},
+        {id:24, val:'دورانیہ :  -----'}
+        ],
+    },
+    {
+        isExpanded: false,
+        category_name: 'تجوید قاعدہ مع قواعد ضروریہ ',
+        subcategory: [
+        {id:25, val:'اس کورس میں بخاری شریف کی احادیث کا دورہ کروایا جائے گا'},
+        {id: 26, val: 'وقت : ۴۰ منٹ'},
+        {id:27, val:'دورانیہ : ۴۰ یوم'}
+        ],
+    },
+    {
+        isExpanded: false,
+        category_name: 'ذکر و تعلیم و دعا  ',
+        subcategory: [
+        {id:28, val:'اس کورس میں بخاری شریف کی احادیث کا دورہ کروایا جائے گا'},
+        {id: 29, val: 'وقت : ۳۰ منٹ'},
+        {id:30, val:'دورانیہ :روزانہ-علاوہ جمعہ'}
+        ],
+    },
+    {
+        isExpanded: false,
+        category_name: 'نماز (عملی طریقہ) ',
+        subcategory: [
+        {id:31, val:'اس کورس میں بخاری شریف کی احادیث کا دورہ کروایا جائے گا'},
+        {id: 32, val: 'وقت :  1 گھنٹہ'},
+        {id:33, val:'دورانیہ:مہینے کا پہلا پیر'}
+        ],
+    },
+    {
+        isExpanded: false,
+        category_name: 'کفن (عملی طریقہ)',
+        subcategory: [
+        {id:34, val:'اس کورس میں بخاری شریف کی احادیث کا دورہ کروایا جائے گا'},
+        {id: 35, val: 'وقت : ۴۰ منٹ'},
+        {id:36, val:'دورانیہ : 6 ماہ میں 1 بار'}
+        ],
+    },
+    {
+        isExpanded: false,
+        category_name: 'وضو (عملی طریقہ)',
+        subcategory: [
+        {id:37, val:'اس کورس میں بخاری شریف کی احادیث کا دورہ کروایا جائے گا'},
+        {id: 38, val: 'وقت : ۴۰ منٹ'},
+        {id:39, val:'دورانیہ:مہینے کا تیسرا پیر'}
+        ],
+    },
+   
+   
+]
+
+const ExpandableComponent = ({item, onClickFunction}) => {
+    const [layoutHeight, setLayoutHeight] = useState(0);
+
+    useEffect(() => {
+      if (item.isExpanded){
+          setLayoutHeight(null);
+      } else {
+          setLayoutHeight(0);
+      }
+    }, [item.isExpanded]);
     return (
+        <View>      
+            <View  style={styles.item}>
+            <Text style={styles.itemText}>
+                    {item.category_name}  
+            </Text>         
+            <TouchableOpacity 
+            style={{ width: 20, height: 20,}}
+            onPress={onClickFunction}>
+            <Ionicons name='caret-down' color='grey' size={20} />
+            </TouchableOpacity>
+            </View>
+            <View
+            style={{
+                height: layoutHeight,
+                overflow: 'hidden'
+            }}
+            >
+                {
+                    item.subcategory.map((item, key) => (
+                        <View
+                        key={key}
+                        style={styles.content}
+                        >
+                            <Text style={styles.text}>
+                                {item.val}
+                            </Text>
+                            <View style={styles.separator} />
+                        </View>
+                    ))
+                }
+            </View>    
+        </View>
+    )
+}
+const Courses = () => {
+    const [listDataSource, setListDataSource] = useState(CONTENT);
+
+    if (Platform.OS === 'android') {
+        UIManager.setLayoutAnimationEnabledExperimental(true)
+    }
+
+    const updateLayout = (index) => {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+        const array = [...listDataSource];
+            // is single select is enabled
+            array.map((value, placeindex) => 
+            placeindex === index
+            ? (array[placeindex]['isExpanded']) = !array[placeindex]['isExpanded']
+            : (array[placeindex]['isExpanded'])= false
+            )
+        // }
+        setListDataSource(array)
+    }
+
+  return (
+    <SafeAreaView style={{flex:1}}>
+    <View style={styles.container}>
+            <View style={styles.header}>
+            <Text style={styles.titleText}>
+                   کورسز کی فہرست   
+            </Text>
+        </View>
         <ScrollView>
-            {/* <View style={styles.container}> */}
-            <View style={styles.card}>
-                <View style={styles.cardContent}> 
-                <Text style={styles.text}>ختم نبوت کورس</Text>
-                <Text style={{color: 'grey',  textAlign: 'center', fontSize:16}}>Khatm-e-Nabuwat Course</Text>
-                <Text style={styles.textLeft}> وقت : ۴۰ منٹ</Text>
-                <Text style={styles.textLeft}>دورانیہ : ۴۰ یوم</Text>
-                <Text style={styles.textRight}>  Time : 40 min </Text>
-                <Text style={styles.textRight}> Duration : 40 days  </Text>  
-            </View> 
-            {/* </View> */}
-            </View>
-            <View style={styles.card}>
-                <View style={styles.cardContent}>
-                    <Text style={styles.text}>سیرت النبی صلی اللہ علیہ وسلم کورس</Text>
-                    <Text style={{color: 'grey',  textAlign: 'center', fontSize:16}}>Siraah of the Prophet (PBUH) Course</Text>
-                        <Text style={styles.textLeft}> وقت : ۴۰ منٹ</Text>
-                        <Text style={styles.textLeft}>دورانیہ : ۴۰ یوم</Text>
-                        <Text style={styles.textRight}>  Time : 40 min </Text>
-                        <Text style={styles.textRight}> Duration : 40 days  </Text>  
-                </View>
-            </View>
-            <View style={styles.card}>
-                <View style={styles.cardContent}>
-                    <Text style={styles.text}>فہم رمضان کورس</Text>
-                    <Text style={{color: 'grey',  textAlign: 'center', fontSize:16}}>Understanding Ramadan Course</Text>
-                    
-                        <Text style={styles.textLeft}> وقت : ۴۰ منٹ</Text>
-                        <Text style={styles.textLeft}>دورانیہ : شعبان تاریخ ۱ تا ۲۵</Text>
-                        <Text style={styles.textRight}>  Time : 40 min </Text>
-                        <Text style={styles.textRight}> Duration : 1-25 Shaʻban </Text>  
-                    
-                </View>
-            </View>
-            <View style={styles.card}>
-                <View style={styles.cardContent}>
-                    <Text style={styles.text}>حفظ چہل احادیث کورس</Text>
-                    <Text style={{color: 'grey',  textAlign: 'center', fontSize:16}}>Memorization of Chahal Hadith Course</Text>
-                    
-                    <Text style={styles.textLeft}> وقت : ۴۰ منٹ</Text>
-                    <Text style={styles.textLeft}>دورانیہ : ۴۰ یوم</Text>
-                    <Text style={styles.textRight}>  Time : 40 min </Text>
-                    <Text style={styles.textRight}> Duration : 40 days  </Text> 
-                </View>
-            </View>
-            <View style={styles.card}>
-                <View style={styles.cardContent}>
-                    <Text style={styles.text}>دورۂ ترجمہ و تفسیر</Text>
-                    <Text style={{color: 'grey',  textAlign: 'center', fontSize:16}}>Daura Tarjuma and Tafseer</Text>
-                    
-                        <Text style={styles.textLeft}> وقت : ۴۰ منٹ</Text>
-                        <Text style={styles.textLeft}>دورانیہ : ------ </Text>
-                        <Text style={styles.textRight}>  Time : 40 min </Text>
-                        <Text style={styles.textRight}> Duration : ------  </Text>
-                </View>
-            </View>
-            <View style={styles.card}>
-                <View style={styles.cardContent}>
-                    <Text style={styles.text}>دورہ بخاری شریف</Text>
-                    <Text style={{color: 'grey',  textAlign: 'center', fontSize:16}}>Daura of Bukhari Sharif</Text>
-                    
-                    <Text style={styles.textLeft}> وقت : ۴۰ منٹ</Text>
-                    <Text style={styles.textLeft}>دورانیہ : ------ </Text>
-                    <Text style={styles.textRight}>  Time : 40 min </Text>
-                    <Text style={styles.textRight}> Duration : ------  </Text>
-                </View>
-            </View>
-            <View style={styles.card}>
-                <View style={styles.cardContent}>
-                    <Text style={styles.text}>تخصص فی العربیہ کورس</Text>
-                    <Text style={{color: 'grey',  textAlign: 'center', fontSize:16}}>Specialization in Arabic course</Text>
-                
-                    <Text style={styles.textLeft}> وقت :  8 : 00 تا 2 : 00</Text>
-                    <Text style={styles.textLeft}>دورانیہ :  2 سال</Text>
-                    <Text style={styles.textRight}>  Time : 8:00AM to 2:00PM </Text>
-                    <Text style={styles.textRight}> Duration : 2 Years  </Text>
-                </View>
-            </View>
-            <View style={styles.card}>
-                <View style={styles.cardContent}>
-                    <Text style={styles.text}>تجوید (قاعدہ/قرآن پاک)</Text>
-                    <Text style={{color: 'grey',  textAlign: 'center', fontSize:16}}>Tajweed (Qaida and Quran Pak)</Text>
-        
-                    <Text style={styles.textLeft}> وقت :  8 : 00 تا 2 : 00 </Text>
-                    <Text style={styles.textLeft}>دورانیہ :  طالب علم پر منحصر ہے</Text>
-                    <Text style={styles.textRight}>  Time : 8:00AM to 2:00PM </Text>
-                    <Text style={styles.textRight}> Duration : ------  </Text>
-                </View>
-            </View>
-            <View style={styles.card}>
-                <View style={styles.cardContent}>
-                    <Text style={styles.text}>تجوید قاعدہ مع قواعد ضروریہ  </Text>
-                    <Text style={{color: 'grey',  textAlign: 'center', fontSize:16}}>Tajweed rule with necessary rules</Text>
-        
-                    <Text style={styles.textLeft}> وقت : ۴۰ منٹ</Text>
-                    <Text style={styles.textLeft}>دورانیہ : ۴۰ یوم</Text>
-                    <Text style={styles.textRight}>  Time : 40 min </Text>
-                    <Text style={styles.textRight}> Duration : 40 days  </Text>
-                </View>
-            </View>
-            <View style={styles.card}>
-                <View style={styles.cardContent}>
-                    <Text style={styles.text}>ذکر و تعلیم و دعا  </Text>
-                    <Text style={{color: 'grey',  textAlign: 'center', fontSize:16}}>Remembrance of Allah, teaching and prayer</Text>
-        
-                    <Text style={styles.textLeft}> وقت : ۳۰ منٹ</Text>
-                    <Text style={styles.textLeft}>دورانیہ :روزانہ-علاوہ جمعہ</Text>
-                    <Text style={styles.textRight}>  Time : 30 min </Text>
-                    <Text style={styles.textRight}> Duration :Daily </Text>
-                </View>
-            </View>
-            <View style={styles.card}>
-                <View style={styles.cardContent}>
-                    <Text style={styles.text}>نماز (عملی طریقہ)</Text>
-                    <Text style={{color: 'grey',  textAlign: 'center', fontSize:16}}>Prayers (Practical Method)</Text>
-            
-                    <Text style={styles.textLeft}> وقت :  1 گھنٹہ</Text>
-                    <Text style={styles.textLeft}>دورانیہ:مہینے کا پہلا پیر </Text>
-                    <Text style={styles.textRight}>  Time : 1 hour </Text>
-                    <Text style={styles.textRight}> Duration:1st Mon of month  </Text>
-                </View>
-            </View>
-            <View style={styles.card}>
-                <View style={styles.cardContent}>
-                    <Text style={styles.text}>کفن (عملی طریقہ)  </Text>
-                    <Text style={{color: 'grey',  textAlign: 'center', fontSize:16}}>Shroud (practical method)</Text>
-                
-                        <Text style={styles.textLeft}> وقت : ۴۰ منٹ</Text>
-                        <Text style={styles.textLeft}>دورانیہ : 6 ماہ میں 1 بار</Text>
-                        <Text style={styles.textRight}>  Time : 40 min </Text>
-                        <Text style={styles.textRight}> Duration: Once in 6 months </Text>
-                </View>
-            </View>
-            <View style={styles.card}>
-                <View style={styles.cardContent}>
-                    <Text style={styles.text}>وضو (عملی طریقہ) </Text>
-                    <Text style={{color: 'grey',  textAlign: 'center', fontSize:16}}>Wudhu (Practical Method)</Text>
-                    
-                        <Text style={styles.textLeft}> وقت : ۴۰ منٹ</Text>
-                        <Text style={styles.textLeft}>دورانیہ:مہینے کا تیسرا پیر</Text>
-                        <Text style={styles.textRight}>  Time : 40 mint</Text>
-                        <Text style={styles.textRight}> Duration:3rd Mon of Month  </Text>
-                </View>
-            </View>
+            {
+                listDataSource.map((item, key) => (
+                    <ExpandableComponent
+                    key={item.category_name}
+                    item={item}
+                    onClickFunction={() => {
+                        updateLayout(key)
+                    }}
+                    />
+                ))
+            }
         </ScrollView>
-    );
+    </View>
+    </SafeAreaView>
+  );
 };
 
-export default CoursesDetailsScreen;
+export default Courses;
 
 const styles = StyleSheet.create({
-    card: {
-        borderRadius: 6,
-        elevation: 3,
-        backgroundColor: '#fff',
-        shadowOffset: {width: 1, height:1},
-        shadowColor: '#333',
-        shadowOpacity: 0.3,
-        shadowRadius:2,
-        marginHorizontal:4,
-        marginVertical:6,
+    container: {
+        flex:1
     },
-    cardContent: {
-        marginHorizontal: 18,
-        marginVertical: 10,    
+    header:{
+        flexDirection: 'row',
+        padding: 10
     },
-    text: {
+    searchWrapperStyle: {
+        backgroundColor: '#16A885',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    iconStyles: {
+        marginTop: 12,
+        marginHorizontal: 8
+    },
+    SearchInputStyle: {
+      flex: 1,
+      fontSize: 16,
+      paddingVertical: 8,
+      paddingHorizontal: 8,
+      margin: 8,
+      color: 'white'      
+    },
+    titleText:{
+        flex:1,
+        fontSize: 22,
+        fontWeight: 'bold',
+        textAlign: 'center'
+    },
+    item:{
+        backgroundColor: '#ebe8e1',
+        padding: 10,
+        marginBottom: 2,
+        flexDirection: 'row-reverse',
+        margin:10
+    },
+    itemText: {
+        fontSize: 22,
+        fontWeight: '700',
+        width: '90%',
+        marginLeft: 20
+       
+    },
+    content: {
+        paddingLeft: 10,
+        paddingRight: 10,
+        backgroundColor: '#fff'   
+    },
+    text:{
         fontSize: 20,
-        color: 'black',
-        textAlign: 'center',
-        marginBottom: 10,    
+        padding:10
     },
-    textLeft: {
-        flex: 1,
-        // position: 'absolute',
-        left:0,
-        top:40,
-        color: '#474545',
-        fontSize: 16,
-      },
-      textRight: {
-        flex: 1,
-        position: 'relative',
-        right: 0,
-        top: 0,
-        color: '#474545',
-        fontSize: 16
-      },
-})
+    separator:{
+        height:1,
+        backgroundColor: '#c8c8c8',
+        width: '100%'
+    }
+
+});
+
