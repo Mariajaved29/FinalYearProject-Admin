@@ -24,7 +24,7 @@ import storage from '@react-native-firebase/storage';
 const EditProfile = ({navigation}) => {
 
     // this is for passing values Editprofile to ProfileScreen
-    const {user} = useContext(AuthContext);
+    const {admin} = useContext(AuthContext);
     const [image, setImage] = useState(null);
     const [uploading, setUploading] = useState(false);
     const [transferred, setTransferred] = useState(0);
@@ -33,8 +33,8 @@ const EditProfile = ({navigation}) => {
 
     const getUser = async() => {
       await firestore()
-      .collection('users')
-      .doc(user.uid)
+      .collection('admin')
+      .doc(admin.uid)
       .get()
       .then((documentSnapshot) => {
         if( documentSnapshot.exists ) {
@@ -65,8 +65,8 @@ const EditProfile = ({navigation}) => {
       console.log({updatedUserData})
   
       firestore()
-      .collection('users')
-      .doc(user.uid)
+      .collection('admin')
+      .doc(admin.uid)
       .update(updatedUserData)
       .then(() => {
         console.log('User Updated!');
@@ -322,7 +322,7 @@ const EditProfile = ({navigation}) => {
           style={styles.textInput}
           />
         </View>
-        <View style={styles.action}>
+        {/* <View style={styles.action}>
           <FontAwesome name='book' size={20} />
           <TextInput
           placeholder='Course'
@@ -332,7 +332,7 @@ const EditProfile = ({navigation}) => {
           onChangeText={(txt) => setUserData({...userData, course: txt})}
           style={styles.textInput}
           />
-        </View>
+        </View> */}
         <View style={styles.action}>
           <FontAwesome name='bookmark' size={20} />
           <TextInput

@@ -14,15 +14,15 @@ import { AuthContext } from '../../Navigation/AuthProvider';
 
 const ProfileScreen = ({navigation, route}) => { 
 
-  const {user} = useContext(AuthContext);
+  const {admin} = useContext(AuthContext);
 
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
 
   const getUser = async() => {
     await firestore()
-    .collection('users')
-    .doc( route.params ? route.params.userId : user.uid)
+    .collection('admin')
+    .doc( route.params ? route.params.adminId : admin.uid)
     .get()
     .then((documentSnapshot) => {
       if( documentSnapshot.exists ) {
@@ -58,31 +58,31 @@ const ProfileScreen = ({navigation, route}) => {
         <View style={styles.action}>
           <FontAwesome name='globe' size={20} />
           <Text style={styles.textInput}>
-            {userData ? userData.location || 'No details added.' : ''}
+            {userData ? userData.location || 'No details added.' : 'No details added.'}
           </Text>
         </View>
         <View style={styles.action}>
           <FontAwesome name='envelope' size={20} />
           <Text style={styles.textInput}>
-            {userData ? userData.email || 'No details added.' : ''}
+            {userData ? userData.email || 'No details added.' : 'No details added.'}
           </Text>
         </View>
         <View style={styles.action}>
           <FontAwesome name='phone' size={20} />
           <Text style={styles.textInput}>
-            {userData ? userData.phone || 'No details added.' : ''}
+            {userData ? userData.phone || 'No details added.' : 'No details added.'}
           </Text>
         </View>
         <View style={styles.action}>
           <FontAwesome name='book' size={20} />
           <Text style={styles.textInput}>
-            {userData ? userData.course || 'No details added.' : ''}
+            {userData ? userData.course || 'No details added.' : 'No details added.'}
           </Text>
         </View>
         <View style={styles.action}>
           <FontAwesome name='bookmark' size={20} />
           <Text style={styles.textInput}>
-            {userData ? userData.about || 'No details added.' : ''}
+            {userData ? userData.about || 'No details added.' : 'No details added.'}
           </Text>
         </View>
         {/* End */}
