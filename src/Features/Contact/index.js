@@ -8,17 +8,10 @@ import {
   ScrollView,
   StyleSheet,
   Image,
-  Button,
-  Linking,
-  Alert
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Contact = () => {
-
-  const email = 'suffah.lilbanaat.madarsa@gmail.com';
-  const number= '+92 3112057668';
-  const message= 'اسلام علیکم';
   return (
     <View style={styles.contactContainer}>
             <View style={styles.bannerContainer}>
@@ -31,72 +24,60 @@ const Contact = () => {
           </View>
         <ScrollView showsVerticalScrollIndicator={false}>  
            <View style={{marginTop:120}}>
+             <TouchableOpacity>
+           {/* <FontAwesome name='edit' size={30} color='black' style={{marginTop:2, alignSelf: 'center', marginBottom: 5}} />  */}
+           </TouchableOpacity> 
             <View style={styles.card}>
                 <View style={{ flexDirection: 'row' }}>
                    <FontAwesome name='user' size={22} style={{marginTop:2}} />                   
                    <Text style={{
                         fontSize:15,
                         fontWeight: 'bold',
-                        marginLeft:20
-                    }}>عالمہ شائستہ</Text>
-                                </View>
+                        marginLeft:20,
+                    }}>عالمہ شائستہ</Text> 
+                                </View>  
                             </View>
                             <View style={styles.card}>
                                 <View style={{ flexDirection: 'row' }}>
-                   <FontAwesome name='phone' size={22} style={{marginTop:2}} />  
-                   <TouchableOpacity
-                        onPress={() => {Linking.openURL(`tel:${number}`)}}
-                        title="call">
-                  <Text style={{
+                   <FontAwesome name='phone' size={22} style={{marginTop:2}} />              
+                   <Text style={{
                           fontSize:15,
                           fontWeight: 'bold',
                           marginLeft:20
                          }}>0311-2057668</Text> 
-                  </TouchableOpacity>                   
                                 </View>
                             </View>
                             <View style={styles.card}>
                                 <View style={{ flexDirection: 'row' }}>
                    <FontAwesome5Pro name='whatsapp-square' size={22} style={{marginTop:2}} />              
-                   <TouchableOpacity
-                        onPress={() => {Linking.openURL(`whatsapp://send?phone=${number}&text=${message}`)}}
-                        title="whatsapp">
-                  <Text style={{
+                   <Text style={{
                           fontSize:15,
                           fontWeight: 'bold',
                           marginLeft:20
                          }}>0311-2057668</Text> 
-                  </TouchableOpacity>  
                                 </View>
                             </View>
                 <View style={styles.card}>
                     <View style={{ flexDirection: 'row' }}>
                    <FontAwesome name='envelope-square' size={22} style={{marginTop:2}} />               
-                  <TouchableOpacity
-                        onPress={() => {Linking.openURL(`mailto:${email}`)}}
-                        title="email">
+                   {/* <Button onPress={() => Linking.openURL('support@example.com') }
+      title="support@example.com" /> */}
                   <Text style={{
                           fontSize:15,
                           fontWeight: 'bold',
                           marginLeft:20
-                         }}>suffah.lilbanaat.madarsa@gmail.com</Text> 
-                  </TouchableOpacity>       
-                             
+                    }}>suffah.lilbanaat.madarsa@gmail.com</Text>           
                                 </View>
                             </View>
                               <View style={styles.card}>
                                 <View style={{ flexDirection: 'row' }}>
                    <FontAwesome name='street-view' size={22} style={{marginTop:2}} />               
-                   <TouchableOpacity
-                        onPress={() => {Linking.openURL( 'https://www.google.com/maps/place/Street+3,+Block+12+Sindh+Baloch+CHS+Block+12+Karachi,+Karachi+City,+Sindh,+Pakistan/@24.9145371,67.1354341,17z/data=!4m5!3m4!1s0x3eb338fe5c864477:0x423ece616e3b35d8!8m2!3d24.9147123!4d67.1376764'
-                        )}}
-                        title="email">
-                  <Text style={{
-                          fontSize:15,
-                          fontWeight: 'bold',
-                          marginLeft:20
-                         }}>سندھ بلوچ سوسایٹی ھاوس نمبر A-265 گلی نمبر3 گلستان جوہر بلاک 12 کراچی</Text>  
-                  </TouchableOpacity> 
+                   <Text style={{
+                   fontSize:15,
+                   fontWeight: 'bold',
+                   marginLeft:20,
+                   height: 50
+                }}>سندھ بلوچ سوسایٹی ھاوس نمبر A-265 گلی نمبر3 گلستان جوہر بلاک 12 کراچی</Text>  
                                 </View>
                             </View>
         </View>
@@ -153,6 +134,7 @@ const styles = StyleSheet.create({
       overflow: 'hidden',
      
     },
+
     commonShadow:
     {
         backgroundColor:"#FFFFFF",
@@ -164,10 +146,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
         shadowRadius: 5,
         borderWidth:1,borderColor:'#ededed',
-    },
-    Button: {
-      backgroundColor: '#fff',
-      
     }
     
   });

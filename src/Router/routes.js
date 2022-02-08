@@ -5,26 +5,33 @@ import {AuthContext} from '../Navigation/AuthProvider';
 
 import RootStack from '../Navigation/RootStack';
 import AppStack from '../Navigation/AppStack';
+import Loading from '../Components/Loading';
 
 const Routes = () => {
-  const {user, setUser} = useContext(AuthContext);
+  const {admin, setAdmin} = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
   const [initializing, setInitializing] = useState(true);
 
-  const onAuthStateChanged = (user) => {
-    setUser(user);
+  const onAuthStateChanged = (admin) => {
+    setAdmin(admin);
     if (initializing) setInitializing(false);
   };
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
+    return subscriber; 
+    // unsubscribe on unmount
   }, []);
 
   if (initializing) return null;
 
+  // if(loading) {
+  //   return <Loading />;
+  // }
+
   return (
     <NavigationContainer>
-      {user ? <AppStack /> : <RootStack />}
+      {admin ? <AppStack /> : <RootStack />}
     </NavigationContainer>
   );
 };

@@ -9,7 +9,6 @@ import SignUpScreen from '../Features/SignUpScreen';
 // import HomeScreen from '../Features/HomeScreen';
 import AuthStack from './AppStack';
 
-
 const Root = createNativeStackNavigator();
 
 const Auth = () => {
@@ -36,25 +35,6 @@ const Auth = () => {
   };
   
 const RootStack = ({navigation}) => (
-  
-    // <Root.Navigator headerMode='none' screenOptions={{
-    //     headerStyle:{
-    //         backgroundColor: '#c1e3ca'
-    //     },
-    //     headerTinColor: 'black',
-    //     headerTinStyle:{
-    //         fontWeight: 'bold'
-    //     }
-    // }}>
-    //     <Root.Screen name="WelcomeScreen" component={WelcomeScreen}
-    //     options={{ headerShown: false }} />
-    //     <Root.Screen name="SignInScreen" component={SignInScreen}
-    //     options={{ title:'' }}/>
-    //     <Root.Screen name="SignUpScreen" component={SignUpScreen}
-    //     options={{ title:'' }} />
-    //     <Root.Screen name="HomeScreen" component={HomeScreen}
-    //     options={{ title:'Home' }} />
-    //     </Root.Navigator>
 
       <Root.Navigator initialRouteName="SplashScreen">
         {/* SplashScreen */}

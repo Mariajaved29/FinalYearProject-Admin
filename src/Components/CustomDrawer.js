@@ -18,19 +18,19 @@ import firestore from '@react-native-firebase/firestore';
 
 const CustomDrawer = props => {
 
-  const { user, logout } = useContext(AuthContext);
+  const { admin, logout } = useContext(AuthContext);
 
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
 
   const getUser = async() => {
     await firestore()
-    .collection('users')
-    .doc( user.uid)
+    .collection('admin')
+    .doc( admin.uid)
     .get()
     .then((documentSnapshot) => {
       if( documentSnapshot.exists ) {
-        console.log('User Data', documentSnapshot.data());
+        // console.log('User Data', documentSnapshot.data());
         setUserData(documentSnapshot.data());
       }
     })

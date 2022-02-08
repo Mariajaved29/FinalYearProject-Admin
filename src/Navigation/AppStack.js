@@ -11,12 +11,13 @@ import Contact from '../Features/Contact';
 import EditProfile from '../Features/ProfileScreen/EditProfile';
 import CoursesDetailsScreen from '../Features/CoursesDetailsScreen';
 import BooksDetailsScreen from '../Features/BoooksDetailsScreen';
-import HomeScreen from '../Features/HomeScreen'
+import HomeScreen from '../Features/HomeScreen';
 
 import TabNavigator from './TabNavigator';
 import TimeTable from '../Features/TimeTable';
 import Notification from '../Features/Notification';
-
+import AddRoomScreen from '../Features/AddRoomScreen';
+import MessageStackScreen from '../Navigation/MessageStack';
 const Drawer = createDrawerNavigator();
 const ProfileStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -109,15 +110,16 @@ const Dashboard = ({navigation}) => {
             }}
         />
       <HomeStack.Screen
-        name="TimeTable"
+        name='TimeTable'
         component={TimeTable}
       />
       <HomeStack.Screen
-        name="MessagesScreen"
-        component={MessagesScreen}
+        name='MessagesScreen'
+        component={MessageStackScreen}
+        options={{headerShown: false}}
       />
       <HomeStack.Screen
-        name="Notification"
+        name='Notification'
         component={Notification}
         onPress={() => navigation.navigate('Notification')}
       />

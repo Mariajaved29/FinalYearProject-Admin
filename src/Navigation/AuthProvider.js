@@ -8,13 +8,13 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
   
-  const [user, setUser] = useState(null);
+  const [admin, setAdmin] = useState(null);
 
   return (
     <AuthContext.Provider
       value={{
-        user,
-        setUser,
+        admin,
+        setAdmin,
         login: async (email, password) => {
           try {
             await auth().signInWithEmailAndPassword(email, password)
@@ -62,10 +62,10 @@ export const AuthProvider = ({children}) => {
                 alert('User account created & signed in!')
               //Once the user creation has happened successfully, we can add the currentUser into firestore
               //with the appropriate details.
-              firestore().collection('users').doc(auth().currentUser.uid)
+              firestore().collection('admin').doc(auth().currentUser.uid)
               .set({
-                  fname: '',
-                  lname: '',
+                  fname: admin.fname || '',
+                  lname: admin.lname || '',
                   email: email,
                   password: password,
                   createdAt: firestore.Timestamp.fromDate(new Date()),

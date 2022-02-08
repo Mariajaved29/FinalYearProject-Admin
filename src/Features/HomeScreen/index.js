@@ -6,7 +6,6 @@ import React from 'react';
      Image, 
      ScrollView, 
      TouchableOpacity, 
-     Platform,
      StatusBar
      } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -21,7 +20,6 @@ const HomeScreen = ({navigation}) => {
         </View>
             
         <View style={styles.footer}>
-        {/* <Text style={styles.heading}>مدرسہ عربیہ صفہ للبنات</Text> */}
         {/* Main Box start */}
         <View style={styles.mainBox}>
           <View style={styles.iconBox}> 
@@ -46,17 +44,11 @@ const HomeScreen = ({navigation}) => {
                     <MaterialCommunityIcons name= 'chat-processing' color= '#729875' size= {40} />
                   </TouchableOpacity>
                 </View>
-                <Text style={styles.mainBox_text}>News</Text>
+                <Text style={styles.mainBox_text}>Messages</Text>
               </View> 
             </View>            
             <View>
-            {/* Main Box End */}
-            <Text style={styles.paragraph}>
-              دینی مدارس کی تاریخ اتنی ہی قدیم ہے جتنی کہ اسلام کی۔  دینی مدارس عہد نبوی سے لے کر آج تک اپنے ایک مخصوص انداز سے  چلے آ رہے ہیں۔ حضورؐ کے دور میں پہلا دینی مدرسہ وہ مخصوص چبو ترہ جس کو "صُفّہ "کہا جا تا ہے۔ اور اس میں حضور ؐ سے تعلیم کتاب تعلیم حکمت اور تز کیہ نفس حاصل کرنے والے حضرت ابو ہریرہؓ ، حضرت انس ؓ سمیت 70کے قریب صحابہ کرام ؓ "اصحابِ صُفّہ "اور سب سے پہلے دینی طا لب علم کہلاتے ہیں۔ دینی مدارس کا اپنا ایک مخصوص نصاب ہوتا ہے جو انتہائی پاکیزہ اور نورانی ماحول میں پڑھا یا جا تا ہے۔ جس میں مستند عالم دین کا مقام حاصل کرنے کے لئے عربی وفارسی ، صرف ونحو، قرآن و حدیث ، تفسیر ، فقہ و اصول فقہ، معانی و ادب ، منطق و فلسفہ جیسے ضروری علوم کا ایک مکمل نصا ب پڑھنے کے بعد وہ عالم دین کے منصب پر فائز ہوتا ہے۔ الحمد لله ثم الحمد لله انہیں مدارس کی ایک کڑی مدرسہ عربیہ صفہ للبنات بھی ھے
-            </Text>
-            <Text style={[styles.text_footer, {textAlign: 'center', marginTop: 10, fontWeight: 'bold'}]}>
-              ربنا تقبل منا انک انت السمیع العلیم
-            </Text>            
+            {/* Main Box End */}       
           </View>
         </View>
       </View>
@@ -120,14 +112,6 @@ const HomeScreen = ({navigation}) => {
       marginRight:30
       // fontWeight: 'bold'
      },
-    paragraph: {
-      fontSize: 17,
-      color: '#000',
-      textAlign: 'center',
-      padding: 10,
-      // backgroundColor: '#fff',
-      borderRadius: 20
-    }
   });
   export default HomeScreen;
 
