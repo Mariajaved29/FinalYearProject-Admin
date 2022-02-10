@@ -17,7 +17,7 @@ const WelcomeScreen = ({navigation}) => {
     const [selectedValue, setSelectedValue] = useState('Student');
     return (
         <View style={styles.container}>
-            <StatusBar backgroundColor='#729875' barStyle='light-content' />
+            <StatusBar backgroundColor='#b09154' barStyle='light-content' />
             <View style={styles.header}>
                <Animatable.Image 
                     animation="bounceIn"
@@ -44,7 +44,7 @@ const WelcomeScreen = ({navigation}) => {
                     onPress={() => navigation.navigate('SignInScreen')}
                     >
                     <LinearGradient
-                    colors={['#729875', '#729875']}
+                    colors={['#b09154', '#b09154']}
                     style={styles.signIn}
                 >
                     <Text style={styles.textSign}>Get Started</Text>
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
   footer: {
       flex: 1,
-      backgroundColor: '#c1e3ca',
+      backgroundColor: '#ebd9b5',
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
       paddingVertical: 50,

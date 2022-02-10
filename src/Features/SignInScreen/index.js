@@ -108,7 +108,7 @@ const SignInScreen = ({navigation}) => {
 
     return (
         <View style={styles.container}>
-            <StatusBar backgroundColor='#729875' barStyle='light-content' />
+            <StatusBar backgroundColor='#b09154' barStyle='light-content' />
             <View style={styles.header}>
                 {/* <Text style={styles.text_header}>Welcome!</Text> */}
             </View>
@@ -135,7 +135,7 @@ const SignInScreen = ({navigation}) => {
                     animation='bounceIn'>
                 <Feather
                     name="check-circle"
-                    color="green"
+                    color="#b09154"
                     size={20}
                 />   
                 </Animatable.View>
@@ -194,7 +194,7 @@ const SignInScreen = ({navigation}) => {
             {/* Button Field */}
             <View style={styles.button}>
                 <LinearGradient
-                    colors={['#729875', '#729875']}
+                    colors={['#b09154', '#b09154']}
                     style={styles.signIn} >
                              <TouchableOpacity
                     // onPress={() => navigation.navigate('AuthStack')}
@@ -205,14 +205,14 @@ const SignInScreen = ({navigation}) => {
                     <TouchableOpacity
                     onPress={() => navigation.navigate('SignUpScreen')}
                     style={[styles.signIn, {
-                        borderColor:'#729875',
+                        borderColor:'#b09154',
                         borderWidth:1,
                         marginTop:15
                     }
                     ]}
                     >
                         <Text style={[styles.textSign,{
-                            color:'#729875'
+                            color:'#b09154'
                         }]}>Sign Up</Text>
                     </TouchableOpacity>
             </View>
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     },
     footer: {
         flex: 3,
-        backgroundColor: '#c1e3ca',
+        backgroundColor: '#ebd9b5',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         paddingHorizontal: 20,

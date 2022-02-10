@@ -18,17 +18,20 @@ import TimeTable from '../Features/TimeTable';
 import Notification from '../Features/Notification';
 import AddRoomScreen from '../Features/AddRoomScreen';
 import MessageStackScreen from '../Navigation/MessageStack';
+import Posts from '../Container/Posts'
 const Drawer = createDrawerNavigator();
 const ProfileStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
+import CreatePost from '../Container/CreatePost';
+
 
 const ProfileStackScreen = ({navigation}) => {
   return(
     <ProfileStack.Navigator 
       screenOptions={{
         headerStyle:{
-          backgroundColor: '#c1e3ca',
-          shadowColor: '#c1e3ca',
+          backgroundColor: '#ebd9b5',
+          shadowColor: '#ebd9b5',
           elevation: 0,
         },
       }}>
@@ -41,7 +44,7 @@ const ProfileStackScreen = ({navigation}) => {
             <Icon.Button
               name='ios-menu'
               size={25}
-              backgroundColor='#c1e3ca'
+              backgroundColor='#ebd9b5'
               color='#000'
               onPress={() => navigation.openDrawer()}
             />
@@ -50,7 +53,7 @@ const ProfileStackScreen = ({navigation}) => {
             <MaterialCommunityIcons.Button
               name='account-edit'
               size={25}
-              backgroundColor='#c1e3ca'
+              backgroundColor='#ebd9b5'
               color='#000'
               onPress={() => navigation.navigate('EditProfile')}
             />
@@ -74,7 +77,7 @@ const Dashboard = ({navigation}) => {
   return (
     <HomeStack.Navigator initialRouteName="HomeScreen" screenOptions={{
       headerStyle:{
-        backgroundColor: '#c1e3ca'
+        backgroundColor: '#ebd9b5'
        }
     }}>
       <HomeStack.Screen
@@ -85,13 +88,13 @@ const Dashboard = ({navigation}) => {
               headerTitleAlign: 'center',
               headerTitleStyle: {
                 fontSize: 25, 
-                color: '#729875', 
+                color: '#b09154', 
               },
               headerLeft:() =>(
                 <Icon.Button
                   name='menu'
                   size={25}
-                  backgroundColor='#c1e3ca'
+                  backgroundColor='#ebd9b5'
                   color='#000'
                   onPress={() => navigation.openDrawer()}  
                 />
@@ -101,7 +104,7 @@ const Dashboard = ({navigation}) => {
                 <MaterialCommunityIcons.Button
                   name='bell'
                   size={25}
-                  backgroundColor='#c1e3ca'
+                  backgroundColor='#ebd9b5'
                   color='#000'
                   badge='3'
                   onPress={() => navigation.navigate('Notification')}
@@ -123,7 +126,25 @@ const Dashboard = ({navigation}) => {
         component={Notification}
         onPress={() => navigation.navigate('Notification')}
       />
+       <HomeStack.Screen
+        name='Posts'
+        component={Posts}
+        onPress={() => navigation.navigate('Posts')}
+        options={{
+          headerRight: ({navigation}) => (
+            <MaterialCommunityIcons.Button
+              name='plus'
+              size={25}
+              backgroundColor='#ebd9b5'
+              color='#000'
+              badge='3'
+              onPress={() => navigation.navigate('CreatePost')}
+            />
+          )
+        }}
+      />
     </HomeStack.Navigator>
+
   );
 };
 
@@ -134,9 +155,9 @@ const AuthStack = () => {
         drawerContent={props => <CustomDrawer {...props} />}
         screenOptions={{
           headerStyle:{
-            backgroundColor: '#c1e3ca'
+            backgroundColor: '#ebd9b5'
           },
-          drawerActiveBackgroundColor: '#729875',
+          drawerActiveBackgroundColor: '#b09154',
           drawerActiveTintColor: '#fff',
           drawerInactiveTintColor: '#333',
           drawerLabelStyle: {
@@ -194,9 +215,20 @@ const AuthStack = () => {
             ),
           }}
         />
+         <Drawer.Screen
+          name="CreatePost"
+          component={CreatePost}
+          options={{
+            drawerIcon: ({color}) => (
+              <MaterialCommunityIcons name="contacts-outline" size={22} color={color} />
+           
+                )
+          }}
+        />
       </Drawer.Navigator>
   );
 };
 
 export default AuthStack;
+
 

@@ -19,7 +19,7 @@ const ChatScreens = () =>{
       <ChatStack.Navigator
         screenOptions={{
             headerStyle: {
-                backgroundColor: '#729875'
+                backgroundColor: '#ebd9b5'
             },
             headerTintColor: '#ffffff',
             headerTitleStyle: {

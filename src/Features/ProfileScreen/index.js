@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   commandButton: {
     padding: 15,
     borderRadius: 10,
-    backgroundColor: '#729875',
+    backgroundColor: '#b09154',
     alignItems: 'center',
     marginTop: 20,
     alignSelf: 'center',
@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: 'bold',
     color: 'white',
+
   },
   action: {
     flexDirection: 'row',

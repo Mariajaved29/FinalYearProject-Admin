@@ -14,37 +14,45 @@ const HomeScreen = ({navigation}) => {
   return (
     <ScrollView>
       <View style={styles.container}>
-      <StatusBar backgroundColor='#729875' barStyle='light-content' />
+      <StatusBar backgroundColor='#b09154' barStyle='light-content' />
         <View style={styles.header}>
-          <Image source={require('../../assets/masjid.png')} style={{height: 330, width: 450}}></Image>
+          <Image source={require('../../assets/masjidnabvi.jpg')} style={{height: 330, width: 450}}></Image>
         </View>
             
         <View style={styles.footer}>
         {/* Main Box start */}
         <View style={styles.mainBox}>
-          <View style={styles.iconBox}> 
+          <View > 
            <View style={styles.icon}>
               <TouchableOpacity onPress={() => navigation.navigate('Books')}>
-                <MaterialCommunityIcons name= 'book-multiple' color= '#729875' size= {40} />
+                <MaterialCommunityIcons name= 'book-multiple-outline' color= '#b09154' size= {60} />
                   </TouchableOpacity>
                 </View>
                 <Text style={styles.mainBox_text}>Books</Text>
               </View>
-              <View style={styles.iconBox}> 
+              <View > 
               <View style={styles.icon}>
                 <TouchableOpacity onPress={() => navigation.navigate('TimeTable')}>
-                  <MaterialCommunityIcons name= 'timetable' color= '#729875' size= {40} />
+                  <MaterialCommunityIcons name= 'timetable' color= '#b09154' size= {60} />
                 </TouchableOpacity>
               </View>
                 <Text style={styles.mainBox_text}>TimeTable</Text>
               </View>
-              <View style={styles.iconBox}> 
+              <View > 
                 <View style={styles.icon}>
                   <TouchableOpacity onPress={() => navigation.navigate('MessagesScreen')}>
-                    <MaterialCommunityIcons name= 'chat-processing' color= '#729875' size= {40} />
+                    <MaterialCommunityIcons name= 'chat-processing-outline' color= '#b09154' size= {60} />
                   </TouchableOpacity>
                 </View>
                 <Text style={styles.mainBox_text}>Messages</Text>
+              </View> 
+              <View > 
+                <View style={styles.icon}>
+                  <TouchableOpacity onPress={() => navigation.navigate('Posts')}>
+                    <MaterialCommunityIcons name= 'post-outline' color= '#b09154' size= {60} />
+                  </TouchableOpacity>
+                </View>
+                <Text style={styles.mainBox_text}>Post</Text>
               </View> 
             </View>            
             <View>
@@ -67,7 +75,7 @@ const HomeScreen = ({navigation}) => {
     },
     footer: {
         flex: 3,
-        backgroundColor: '#edf5f0',
+        backgroundColor: '#ebd9b5',
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         paddingTop: 20,
@@ -83,7 +91,7 @@ const HomeScreen = ({navigation}) => {
       margin: 30
     },
     mainBox_text: { 
-      color: '#729875', 
+      color: '#b09154', 
       fontWeight: 'bold', 
       fontSize: 15, 
       textAlign: 'center' 
@@ -91,8 +99,8 @@ const HomeScreen = ({navigation}) => {
     icon: {
       backgroundColor: '#fff',
       borderRadius: 50, 
-      padding:10, 
-      margin: 10
+      padding: 10, 
+      margin: 15
     },
     text_header: {
         color: '#f87a01',
@@ -105,7 +113,7 @@ const HomeScreen = ({navigation}) => {
     },
     heading: {
       fontSize: 25, 
-      color: '#729875', 
+      color: '#b09154', 
       marginTop: 5, 
       marginBottom: 5,
       marginLeft: 50,
