@@ -11,6 +11,11 @@ export default function FormInput({ labelName, ...rest }) {
       style={styles.input}
       numberOfLines={1}
       {...rest}
+      theme={{
+        colors: {
+          primary: '#b09154' // Outline color here
+        }
+      }}
     />
   );
 }

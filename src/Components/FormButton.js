@@ -11,6 +11,7 @@ export default function FormButton({ title, modeValue, ...rest }) {
       {...rest}
       style={styles.button}
       contentStyle={styles.buttonContainer}
+      color='#b09154'
     >
       {title}
     </Button>

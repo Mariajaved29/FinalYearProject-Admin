@@ -1,19 +1,89 @@
-import { View, Text, SectionList } from 'react-native';
-import React from 'react';
+import { View, Text , StyleSheet, TouchableOpacity, Keyboard,} from 'react-native'
+import React, { useState } from 'react'
+import FormInput from '../../Components/FormInput'
+import TodoTask from '../../Components/TodoTask';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const BooksDetailsScreen = () => {
+const BooksDetailsScreen = ({navigation}) => {
+
+  const [task, setTask] = useState('');
+  const [taskItems, setTaskItems] = useState([]);
+  const [checkAll, setCheckAll] = useState(false)
+
+  const handleAddTask = () => {
+    Keyboard.dismiss();
+    setTaskItems([...taskItems, task])
+    setTask(null);
+  }
+
+  const DeleteTask = (index) => {
+    let itemsCopy = [...taskItems];
+    itemsCopy.splice(index, 1);
+    setTaskItems(itemsCopy)
+  }
+
 
   return (
-    <View>  
-    <Text style={{fontSize:30, padding:7, textAlign:'center', fontWeight: 'bold'}}>کتب خاصہ </Text>
-      
-</View>
-  );
-};
+    <View style={styles.container}>
+      <Text style={{fontSize:30, padding:7, textAlign:'center', fontWeight: 'bold'}}>کتب خاصہ </Text>
+    <View style={styles.header}>
+     
+     <FormInput
+                    labelName='Add Main Title'
+                    value={task}
+                    onChangeText={text => setTask(text)}
+                    theme={{
+                      colors: {
+                        primary: '#b09154', // Outline color here
+                        
+                      }
+                    }}
+                    style={{backgroundColor: '#fff', width: "70%",  }}
+    />
+      <View style={styles.icon}>
+                  <TouchableOpacity onPress={() => handleAddTask()}>
+                    <MaterialCommunityIcons name= 'plus' color= '#fff' size= {15} />
+                  </TouchableOpacity>
+      </View>
+    </View>
+    <View>
+      {
+        taskItems.map((item, index) => {
+          return (
+          <View>
+          <TodoTask text={item} i={index} press={() => DeleteTask(index)} expend={() => navigation.navigate('expendTodoList')}/>
+         
+          </View>
+            )
+        })
+      }
+    </View>
+    </View>
+  )
+}
 
-export default BooksDetailsScreen;
 
+export default BooksDetailsScreen
 
+const styles = StyleSheet.create({
+  container:{
+    flex:1
+  },
+  header:{
+    flexDirection: 'row',
+    alignSelf: 'center'
+  },
+  icon: {
+    backgroundColor: '#b09154',
+    borderRadius: 50, 
+    padding: 10, 
+    margin: 15
+  },
+  footer:{
+    flexDirection: 'row',
+    justifyContent:'space-between'
+  }
+})
 // import { View, Text, ScrollView, StyleSheet } from 'react-native';
 // import React from 'react';
 

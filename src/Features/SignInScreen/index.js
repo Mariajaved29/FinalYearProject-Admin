@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useMemo } from 'react';
 import { StyleSheet,
     Text, 
     View, 
@@ -15,12 +15,14 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import * as Animatable from 'react-native-animatable';
 import { AuthContext } from '../../Navigation/AuthProvider';
+import { Button } from 'react-native-paper';
 
 const SignInScreen = ({navigation}) => {
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [errortext, setErrortext] = useState('');
+    const [disabled, setDisabled] = useState('');
 
     const { login } = useContext(AuthContext);
 
@@ -106,6 +108,17 @@ const SignInScreen = ({navigation}) => {
         }
     };
 
+    const buttonDisabled = () => {
+        if (data.userEmail.length === 0 && data.userPassword.length === 0 ) { 
+            setDisabled({
+            disabled: true
+        })
+        } else {
+            setDisabled({
+            disabled: false
+            })
+        }
+    }
     return (
         <View style={styles.container}>
             <StatusBar backgroundColor='#b09154' barStyle='light-content' />
@@ -193,16 +206,23 @@ const SignInScreen = ({navigation}) => {
             }
             {/* Button Field */}
             <View style={styles.button}>
-                <LinearGradient
-                    colors={['#b09154', '#b09154']}
-                    style={styles.signIn} >
-                             <TouchableOpacity
-                    // onPress={() => navigation.navigate('AuthStack')}
-                    onPress={() => {login(email, password); handleSubmitPress(email, password)}}>
-                        <Text style={[styles.textSign, {color:'#fff'}]}>Sign In</Text>
-                        </TouchableOpacity>
-                    </LinearGradient>
-                    <TouchableOpacity
+                <Button
+                mode='contained'
+                 style={styles.signIn} 
+                 color='#b09154'
+                    //  {/* <TouchableOpacity */}
+                     
+                disabled={data.userEmail.length === 0 && data.userPassword.length === 0 ? true : false} 
+                           
+                    onPress={() => {login(email, password); 
+                        handleSubmitPress(email, password)}}
+                    
+                    >
+                       <Text style={[styles.textSign, {color: '#fff'}]}>Sign In</Text> 
+                        {/* <Text style={[styles.textSign, {color: '#fff'}]}>Sign In</Text>
+                    </TouchableOpacity> */}
+                </Button>
+                    <Button
                     onPress={() => navigation.navigate('SignUpScreen')}
                     style={[styles.signIn, {
                         borderColor:'#b09154',
@@ -214,7 +234,7 @@ const SignInScreen = ({navigation}) => {
                         <Text style={[styles.textSign,{
                             color:'#b09154'
                         }]}>Sign Up</Text>
-                    </TouchableOpacity>
+                    </Button>
             </View>
             </Animatable.View>
         </View>
@@ -289,6 +309,6 @@ const styles = StyleSheet.create({
     },
     textSign: {
         fontSize: 18,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     }
   });

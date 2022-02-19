@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import { IconButton, Title } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import FormInput from '../../Components/FormInput';
 import FormButton from '../../Components/FormButton';
 import useStatusBar from '../../Common/utils';
+const { width, height } = Dimensions.get('screen');
 
 export default function AddRoomScreen({ navigation }) {
     useStatusBar('dark-content');
 
     const [roomName, setRoomName] = useState('');
-
     /**
      * Create a new Firestore collection to save threads
      */
@@ -43,7 +43,7 @@ export default function AddRoomScreen({ navigation }) {
                 <IconButton
                     icon='close-circle'
                     size={36}
-                    color='#729875'
+                    color='#b09154'
                     onPress={() => navigation.goBack()}
                 />
             </View>
@@ -61,6 +61,7 @@ export default function AddRoomScreen({ navigation }) {
                     labelStyle={styles.buttonLabel}
                     onPress={() => handleButtonPress()}
                     disabled={roomName.length === 0}
+
                 />
             </View>
         </View>
@@ -88,5 +89,11 @@ const styles = StyleSheet.create({
     },
     buttonLabel: {
         fontSize: 22
-    }
+    },
+    input: {
+        marginTop: 10,
+        marginBottom: 10,
+        width: width / 1.5,
+        height: height / 15
+      }
 });
