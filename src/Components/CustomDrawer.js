@@ -5,6 +5,7 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  StatusBar
 } from 'react-native';
 import {
   DrawerContentScrollView,
@@ -43,6 +44,7 @@ const CustomDrawer = props => {
 
   return (
     <View style={{ flex: 1 }}>
+    <StatusBar backgroundColor='#b09154' barStyle='light-content' />
       <DrawerContentScrollView
         {...props}
         contentContainerStyle={{ backgroundColor: '#729875' }}>
