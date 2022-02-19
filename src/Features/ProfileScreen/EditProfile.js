@@ -200,7 +200,7 @@ const EditProfile = ({navigation}) => {
   return (
     <ScrollView>
       <View style={styles.container}>
-      <StatusBar backgroundColor='#729875' barStyle='light-content' />
+      <StatusBar backgroundColor='#b09154' barStyle='light-content' />
       {/* Bottom sheet */}
       <BottomSheet
         ref={bs}

@@ -24,7 +24,7 @@ export default class TodoList extends React.Component {
                     updateList={this.props.updateList}
                     />
                 </Modal>
-            <TouchableOpacity style={[styles.listContainer , {backgroundColor: '#fff'}]}
+            <TouchableOpacity style={[styles.listContainer , {backgroundColor: '#b09154'}]}
             onPress={() => this.toggleListModal()}>
             <Text style={styles.listTitle} numberOfLines={1}>
                 {list.name}
@@ -39,18 +39,16 @@ const styles = StyleSheet.create ({
     listContainer:{
         paddingVertical: 10,
         paddingHorizontal: 10,
-        borderRadius: 10,
+        borderRadius: 6,
         marginHorizontal: 10,
         alignItems: 'center',
         width:"90%",
-        marginBottom: 10,
-        borderColor: '#b09154',
-        borderWidth: 2
+        marginBottom: 10
     },
     listTitle:{
         fontSize: 24,
         fontWeight: '700',
-        color: '#b09154',
+        color: '#fff',
      
     }
 })

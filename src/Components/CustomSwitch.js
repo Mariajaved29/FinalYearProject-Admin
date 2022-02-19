@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, StatusBar} from 'react-native';
 
 export default function CustomSwitch({
   selectionMode,
@@ -25,6 +25,7 @@ export default function CustomSwitch({
         flexDirection: 'row',
         justifyContent: 'center',
       }}>
+     <StatusBar backgroundColor='#b09154' barStyle='light-content' />
       <TouchableOpacity
         activeOpacity={1}
         onPress={() => updateSwitchData(1)}

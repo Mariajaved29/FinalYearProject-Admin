@@ -3,7 +3,8 @@ import {
   ActivityIndicator,
   View,
   StyleSheet,
-  Image
+  Image,
+  StatusBar
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -32,6 +33,7 @@ const SplashScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+            <StatusBar backgroundColor='#b09154' barStyle='light-content' />
       <Image
         source={require('../../assets/logo.png')}
         style={{width: '40%', resizeMode: 'contain', margin: 30}}

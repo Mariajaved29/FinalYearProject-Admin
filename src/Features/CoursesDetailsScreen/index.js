@@ -3,7 +3,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import React from "react";
 import TodoList from "../../Components/CoursesTodo/TodoList";
 import AddListModal from "../../Components/CoursesTodo/AddListModal";
-import {tempData} from "../../Components/CoursesTodo/tempData"
+import {tempData} from "../../Components/CoursesTodo/tempData";
 
 export default class CoursesDetailsScreen extends React.Component {
   state={

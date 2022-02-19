@@ -10,14 +10,13 @@ import { StyleSheet,
 import LinearGradient from 'react-native-linear-gradient';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import * as Animatable from 'react-native-animatable';
-import {Picker} from '@react-native-picker/picker';
 
 const WelcomeScreen = ({navigation}) => {
     // this state is for react native picker
-    const [selectedValue, setSelectedValue] = useState('Student');
+
     return (
         <View style={styles.container}>
-            <StatusBar backgroundColor='#b09154' barStyle='light-content' />
+      <StatusBar backgroundColor='#b09154' barStyle='light-content' />
             <View style={styles.header}>
                <Animatable.Image 
                     animation="bounceIn"
@@ -32,13 +31,7 @@ const WelcomeScreen = ({navigation}) => {
                 <Text style={styles.title}>Stay Connected With Us!</Text>
                 <Text style={styles.text}>Sign in With Account</Text>
                 {/* this code is for react native picker */}
-                <Picker
-                mode={'dropdown'}
-                selectedValue={selectedValue}
-                onValueChange={(itemValue) => setSelectedValue(itemValue)}>
-                    <Picker.Item label='Admin' value='Admin' />
-                    <Picker.Item label='Student' value='Student' />
-                </Picker>
+               
                 <View style={styles.button}>
                     <TouchableOpacity 
                     onPress={() => navigation.navigate('SignInScreen')}

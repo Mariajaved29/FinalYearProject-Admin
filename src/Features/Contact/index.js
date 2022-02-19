@@ -5,15 +5,113 @@ import FontAwesome5Pro from 'react-native-vector-icons/FontAwesome5Pro'
 import {
   View,
   Text,
-  ScrollView,
   StyleSheet,
+  TouchableOpacity, 
   Image,
+  ScrollView,
+  FlatList, 
+  Modal,
+  StatusBar
 } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+// import AntDesign from 'react-native-vector-icons/AntDesign'
+// import {TodoList} from "../../Components/ContactTodo/TodoList";
+// import AddListModal from "../../Components/ContactTodo/AddListModal";
+// import {tempData} from "../../Components/ContactTodo/tempData"
 
-const Contact = () => {
+// export default class Contact extends React.Component {
+//   state={
+//     addTodoVisible : false,
+//   }
+
+//   toggleAddTodoModal() {
+//     this.setState({addTodoVisible: !this.state.addTodoVisible})
+//   }
+//   render() {
+//     return (
+//       <View style={styles.container} >
+//         <Modal 
+//         animationType="slide" 
+//         visible={this.state.addTodoVisible}
+//         onRequestClose={() => this.toggleAddTodoModal()}
+//         >
+//           <AddListModal  closeModal={() => this.toggleAddTodoModal()} 
+//           />
+//         </Modal>
+//         <View style={{ flexDirection: 'row'}}>
+//          <View style={styles.divider} />
+//          <View style={styles.title}>
+//           <Text style={{ fontWeight: '800', fontSize: 20, color: '#b09154' }}>رابطہ کرنے کی تفصیلات</Text>
+//          </View>
+//          <View style={styles.divider} />
+//          </View>
+//          <View style={{marginVertical: 48}}>
+//            <TouchableOpacity style={styles.addList} 
+//            onPress={() => this.toggleAddTodoModal()}>
+//              <AntDesign name="plus" size={20} color='#b09154' />
+//            </TouchableOpacity>
+//          <Text style={styles.add}>تفصیلات شامل کریں۔</Text>
+//          </View>
+//          <View style={{height: 275, paddingLeft: 32, width: '100%'}}>
+//            <FlatList 
+//            data={tempData}
+//            keyExtractor={item => item.name}
+//            vertical={true}
+//            showsVerticalScrollIndicator={false}
+//            renderItem = {({item}) => 
+//            <TodoList list={item} />}
+//            keyboardShouldPersistTaps='always'
+//            />
+//          </View>
+//         </View>
+//     );
+//   }
+// }
+   
+
+
+// const styles = StyleSheet.create({
+//    container:{
+//      flex: 1,
+//      backgroundColor: '#fff',
+//      alignItems: 'center',
+//      justifyContent: 'center'
+//    },
+//    divider:{
+//      backgroundColor: '#ebd9b5',
+//      height: 1,
+//      flex: 1,
+//      alignSelf: 'center'
+//    },
+//    title: {
+//      fontSize: 30,
+//      fontWeight: '800',
+//      color: '#ebd9b5',
+//      paddingHorizontal: 64
+//    },
+//    addList: {
+//      borderWidth: 2,
+//      borderColor: '#ebd9b5',
+//      borderRadius: 4,
+//      padding: 16,
+//      alignItems: 'center',
+//      justifyContent: 'center'
+//    },
+//    add: {
+//      color: '#b09154',
+//      fontWeight: '600',
+//      fontSize: 16,
+//      marginTop: 8,
+     
+//    }
+// });
+
+
+
+const Contact = ({navigation}) => {
   return (
+ 
     <View style={styles.contactContainer}>
+         <StatusBar backgroundColor='#b09154' barStyle='light-content' />
             <View style={styles.bannerContainer}>
             <Image
               source={require('../../assets/01.jpg')}
@@ -81,8 +179,16 @@ const Contact = () => {
                                 </View>
                             </View>
         </View>
+        <TouchableOpacity style={styles.commandButton}
+          onPress={() => navigation.navigate('EditContact')
+          // , { firstNameData: firstname, })
+        } 
+        >
+          <Text style={styles.panelButtonTitle}>Edit Contact</Text>
+        </TouchableOpacity>
       </ScrollView>
-          </View>
+   
+        </View>
   );
 }
 
@@ -99,13 +205,13 @@ const styles = StyleSheet.create({
     margin: 10, 
     marginTop: 0, 
     backgroundColor:"#FFFFFF",
-    borderRadius:20,
+    borderRadius:10,
     elevation:10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 1,
     shadowRadius: 5,
-    borderWidth:1,borderColor:'#ededed', 
+    borderWidth:1,
   },
     contactContainer: {
       width: '100%',
@@ -132,20 +238,26 @@ const styles = StyleSheet.create({
       borderBottomRightRadius: 50,
       borderBottomLeftRadius: 50,
       overflow: 'hidden',
-     
     },
-
-    commonShadow:
-    {
-        backgroundColor:"#FFFFFF",
-        borderRadius:0,
-        padding:10,
-        elevation:10,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: 1,
-        shadowRadius: 5,
-        borderWidth:1,borderColor:'#ededed',
-    }
+    commandButton: {
+      padding: 15,
+      borderRadius: 10,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      marginTop: 20,
+      alignSelf: 'center',
+      width: '70%',
+      elevation:10,
+      shadowColor: '#b09154',
+      shadowOffset: { width: 5, height: 5 },
+      shadowOpacity: 1,
+      shadowRadius: 5,
+    },
+    panelButtonTitle: {
+      fontSize: 17,
+      fontWeight: 'bold',
+      color: '#b09154',
+  
+    },
     
   });

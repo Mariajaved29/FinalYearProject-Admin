@@ -12,6 +12,7 @@ import EditProfile from '../Features/ProfileScreen/EditProfile';
 import CoursesDetailsScreen from '../Features/CoursesDetailsScreen';
 import BooksDetailsScreen from '../Features/BoooksDetailsScreen';
 import HomeScreen from '../Features/HomeScreen';
+import EditContact from '../Features/Contact/EditContact'
 
 import TabNavigator from './TabNavigator';
 import TimeTable from '../Features/TimeTable';
@@ -22,6 +23,8 @@ import Posts from '../Container/Posts'
 const Drawer = createDrawerNavigator();
 const ProfileStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
+const ContactStack = createNativeStackNavigator();
+const PostStack = createNativeStackNavigator();
 import CreatePost from '../Container/CreatePost';
 
 
@@ -71,6 +74,91 @@ const ProfileStackScreen = ({navigation}) => {
   );
 };
 
+const ContactStackScreen = ({navigation}) => {
+  return(
+    <ContactStack.Navigator 
+    screenOptions={{
+      headerStyle:{
+        backgroundColor: '#ebd9b5',
+        shadowColor: '#ebd9b5',
+        elevation: 0,
+      },
+    }} >
+      <ContactStack.Screen
+        name='Contacts'
+        component={Contact}
+        options={{
+          title:'Contact',
+          headerLeft:() =>(
+            <Icon.Button
+              name='ios-menu'
+              size={25}
+              backgroundColor='#ebd9b5'
+              color='#000'
+              onPress={() => navigation.openDrawer()}
+            />
+          ),
+          headerRight: () => (
+            <MaterialCommunityIcons.Button
+              name='square-edit-outline'
+              size={25}
+              backgroundColor='#ebd9b5'
+              color='#000'
+              onPress={() => navigation.navigate('EditContact')}
+            />
+          )
+        }}
+      /> 
+      <ContactStack.Screen 
+        name='EditContact'
+        component={EditContact}
+      />
+    </ContactStack.Navigator>
+  );
+};
+
+const PostStackScreen = ({navigation}) => {
+  return(
+    <PostStack.Navigator 
+      screenOptions={{
+        headerStyle:{
+          backgroundColor: '#ebd9b5',
+          shadowColor: '#ebd9b5',
+          elevation: 0,
+        },
+      }}>
+      <PostStack.Screen
+        name='Posts'
+        component={Posts}
+        options={{
+          title:'Post',
+          headerLeft:() =>(
+            <Icon.Button
+              name='arrow-back'
+              size={25}
+              backgroundColor='#ebd9b5'
+              color='#000'
+              onPress={() => navigation.navigate('HomeScreen')}
+            />
+          ),
+          headerRight: () => (
+            <MaterialCommunityIcons.Button
+              name='plus'
+              size={25}
+              backgroundColor='#ebd9b5'
+              color='#000'
+              onPress={() => navigation.navigate('CreatePost')}
+            />
+          )
+        }}
+      /> 
+      <PostStack.Screen 
+        name='CreatePost'
+        component={CreatePost}
+      />
+    </PostStack.Navigator>
+  );
+};
 
 const Dashboard = ({navigation}) => {
   // Stack Navigator for Home Screen
@@ -127,21 +215,13 @@ const Dashboard = ({navigation}) => {
         onPress={() => navigation.navigate('Notification')}
       />
        <HomeStack.Screen
-        name='Posts'
-        component={Posts}
-        onPress={() => navigation.navigate('Posts')}
+        name='Post'
+        component={PostStackScreen}
+        onPress={() => navigation.navigate('Post')}
         options={{
-          headerRight: ({navigation}) => (
-            <MaterialCommunityIcons.Button
-              name='plus'
-              size={25}
-              backgroundColor='#ebd9b5'
-              color='#000'
-              badge='3'
-              onPress={() => navigation.navigate('CreatePost')}
-            />
-          )
+          headerShown: false,
         }}
+       
       />
     </HomeStack.Navigator>
 
@@ -208,21 +288,12 @@ const AuthStack = () => {
         />
         <Drawer.Screen
           name="Contact"
-          component={Contact}
+          component={ContactStackScreen}
           options={{
+            headerShown: false,
             drawerIcon: ({color}) => (
               <MaterialCommunityIcons name="contacts-outline" size={22} color={color} />
             ),
-          }}
-        />
-         <Drawer.Screen
-          name="CreatePost"
-          component={CreatePost}
-          options={{
-            drawerIcon: ({color}) => (
-              <MaterialCommunityIcons name="contacts-outline" size={22} color={color} />
-           
-                )
           }}
         />
       </Drawer.Navigator>

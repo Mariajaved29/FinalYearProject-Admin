@@ -40,7 +40,7 @@ const ProfileScreen = ({navigation, route}) => {
   return (
     <ScrollView>
       <View style={styles.container}>
-      <StatusBar backgroundColor='#729875' barStyle='light-content' />
+      <StatusBar backgroundColor='#b09154' barStyle='light-content' />
         <View style={styles.picture}>
           <Avatar.Image
             source={{uri: userData ? userData.userImg || '../../assets/user.png' : '../../assets/user.png' }}

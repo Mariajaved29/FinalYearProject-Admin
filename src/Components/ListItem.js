@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableOpacity, StatusBar} from 'react-native';
 import { windowWidth } from '../utils/Dimensions';
 
 export default function ListItem({photo, title, subTitle, isFree, price, onPress}) {
@@ -10,6 +10,7 @@ export default function ListItem({photo, title, subTitle, isFree, price, onPress
       alignItems: 'center',
       marginBottom: 20,
     }}>
+      <StatusBar backgroundColor='#b09154' barStyle='light-content' />
       <View style={{flexDirection: 'row', alignItems: 'center', flex: 1}}>
         <Image
           source={photo}

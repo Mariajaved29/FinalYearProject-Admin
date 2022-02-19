@@ -33,8 +33,8 @@ export default class AddListModal extends React.Component {
             </TouchableOpacity>
 
             <View style={{alignSelf: 'stretch', marginHorizontal: 32}}>
-                <Text style={styles.title}>کورس کا نام شامل کریں۔</Text>
-                <TextInput style={styles.input} placeholder="کورس کا نام یہاں لکھیں۔"
+                <Text style={styles.title}>کلاس کا نام شامل کریں۔</Text>
+                <TextInput style={styles.input} placeholder="یہاں کلاس کا نام لکھیں۔"
                 onChangeText={text => this.setState({name: text})} />
                 <TouchableOpacity style={[styles.create, {backgroundColor: '#b09154'}]}
                 onPress={this.createTodo}>

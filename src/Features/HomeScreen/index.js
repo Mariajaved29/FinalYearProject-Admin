@@ -4,7 +4,6 @@ import React from 'react';
     Text,
      StyleSheet, 
      Image, 
-     ScrollView, 
      TouchableOpacity, 
      StatusBar
      } from 'react-native';
@@ -12,7 +11,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 const HomeScreen = ({navigation}) => {
   return (
-    <ScrollView>
+
       <View style={styles.container}>
       <StatusBar backgroundColor='#b09154' barStyle='light-content' />
         <View style={styles.header}>
@@ -48,7 +47,7 @@ const HomeScreen = ({navigation}) => {
               </View> 
               <View > 
                 <View style={styles.icon}>
-                  <TouchableOpacity onPress={() => navigation.navigate('Posts')}>
+                  <TouchableOpacity onPress={() => navigation.navigate('Post')}>
                     <MaterialCommunityIcons name= 'post-outline' color= '#b09154' size= {60} />
                   </TouchableOpacity>
                 </View>
@@ -60,7 +59,7 @@ const HomeScreen = ({navigation}) => {
           </View>
         </View>
       </View>
-    </ScrollView>
+
   );
 };
 
@@ -70,7 +69,7 @@ const HomeScreen = ({navigation}) => {
       backgroundColor: '#fff'
     },
     header: {
-        flex: 1,
+        flex: 2,
         height: 300
     },
     footer: {
@@ -80,7 +79,7 @@ const HomeScreen = ({navigation}) => {
         borderTopRightRadius: 30,
         paddingTop: 20,
         paddingHorizontal: 30,
-        paddingVertical: 30
+        paddingVertical: 30,
     },
     mainBox: {
       flex: 1,

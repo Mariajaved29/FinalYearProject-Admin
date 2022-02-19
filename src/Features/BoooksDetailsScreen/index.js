@@ -1,191 +1,114 @@
-import { View, Text , StyleSheet, TouchableOpacity, Keyboard,} from 'react-native'
-import React, { useState } from 'react'
-import FormInput from '../../Components/FormInput'
-import TodoTask from '../../Components/TodoTask';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { StyleSheet, Text, View, TouchableOpacity, FlatList, Modal } from "react-native";
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import React from "react";
+import TodoList from "../../Components/BooksTodo/TodoList";
+import AddListModal from "../../Components/BooksTodo/AddListModal";
+import {tempData} from "../../Components/BooksTodo/tempData"
 
-const BooksDetailsScreen = ({navigation}) => {
-
-  const [task, setTask] = useState('');
-  const [taskItems, setTaskItems] = useState([]);
-  const [checkAll, setCheckAll] = useState(false)
-
-  const handleAddTask = () => {
-    Keyboard.dismiss();
-    setTaskItems([...taskItems, task])
-    setTask(null);
+export default class BooksDetailsScreen extends React.Component {
+  state={
+    addTodoVisible : false,
+    lists: tempData
   }
 
-  const DeleteTask = (index) => {
-    let itemsCopy = [...taskItems];
-    itemsCopy.splice(index, 1);
-    setTaskItems(itemsCopy)
+  toggleAddTodoModal() {
+    this.setState({addTodoVisible: !this.state.addTodoVisible})
   }
 
+  renderList = list => {
+    return <TodoList list={list} updateList={this.updateList} />
+  }
+ 
+  addList = list => {
+    this.setState({
+      lists: 
+      [...this.state.lists, 
+        {...list, id: this.state.lists.length + 1, todos: [] }] })
+  }
 
-  return (
-    <View style={styles.container}>
-      <Text style={{fontSize:30, padding:7, textAlign:'center', fontWeight: 'bold'}}>کتب خاصہ </Text>
-    <View style={styles.header}>
-     
-     <FormInput
-                    labelName='Add Main Title'
-                    value={task}
-                    onChangeText={text => setTask(text)}
-                    theme={{
-                      colors: {
-                        primary: '#b09154', // Outline color here
-                        
-                      }
-                    }}
-                    style={{backgroundColor: '#fff', width: "70%",  }}
-    />
-      <View style={styles.icon}>
-                  <TouchableOpacity onPress={() => handleAddTask()}>
-                    <MaterialCommunityIcons name= 'plus' color= '#fff' size= {15} />
-                  </TouchableOpacity>
-      </View>
-    </View>
-    <View>
-      {
-        taskItems.map((item, index) => {
-          return (
-          <View>
-          <TodoTask text={item} i={index} press={() => DeleteTask(index)} expend={() => navigation.navigate('expendTodoList')}/>
-         
-          </View>
-            )
-        })
-      }
-    </View>
-    </View>
-  )
+  updateList = list => {
+    this.setState({
+      lists: this.state.lists.map(item => {
+        return item.id === list.id ? list : item
+      })
+    })
+  }
+  render() {
+    return (
+      <View style={styles.container} >
+        <Modal 
+        animationType="slide" 
+        visible={this.state.addTodoVisible}
+        onRequestClose={() => this.toggleAddTodoModal()}
+        >
+          <AddListModal  closeModal={() => this.toggleAddTodoModal()} 
+          addList={this.addList}/>
+        </Modal>
+        <View style={{ flexDirection: 'row'}}>
+         <View style={styles.divider} />
+         <View style={styles.title}>
+          <Text style={{ fontWeight: '800', fontSize: 20, color: '#b09154' }}>کتابوں کی تفصیلات</Text>
+         </View>
+         <View style={styles.divider} />
+         </View>
+         <View style={{marginVertical: 48}}>
+           <TouchableOpacity style={styles.addList} 
+           onPress={() => this.toggleAddTodoModal()}>
+             <AntDesign name="plus" size={20} color='#b09154' />
+           </TouchableOpacity>
+         <Text style={styles.add}>کلاس کا نام شامل کریں۔</Text>
+         </View>
+         <View style={{height: 275, paddingLeft: 32, width: '100%'}}>
+           <FlatList 
+           data={this.state.lists}
+           keyExtractor={item => item.name}
+           vertical={true}
+           showsVerticalScrollIndicator={false}
+           renderItem = {({item}) => 
+           this.renderList(item)}
+           keyboardShouldPersistTaps='always'
+           />
+         </View>
+        </View>
+    );
+  }
 }
+   
 
-
-export default BooksDetailsScreen
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1
-  },
-  header:{
-    flexDirection: 'row',
-    alignSelf: 'center'
-  },
-  icon: {
-    backgroundColor: '#b09154',
-    borderRadius: 50, 
-    padding: 10, 
-    margin: 15
-  },
-  footer:{
-    flexDirection: 'row',
-    justifyContent:'space-between'
-  }
-})
-// import { View, Text, ScrollView, StyleSheet } from 'react-native';
-// import React from 'react';
+   container:{
+     flex: 1,
+     backgroundColor: '#fff',
+     alignItems: 'center',
+     justifyContent: 'center'
+   },
+   divider:{
+     backgroundColor: '#ebd9b5',
+     height: 1,
+     flex: 1,
+     alignSelf: 'center'
+   },
+   title: {
+     fontSize: 30,
+     fontWeight: '800',
+     color: '#ebd9b5',
+     paddingHorizontal: 64
+   },
+   addList: {
+     borderWidth: 2,
+     borderColor: '#ebd9b5',
+     borderRadius: 4,
+     padding: 16,
+     alignItems: 'center',
+     justifyContent: 'center'
+   },
+   add: {
+     color: '#b09154',
+     fontWeight: '600',
+     fontSize: 16,
+     marginTop: 8,
+     
+   }
+});
 
-// const BooksDetailsScreen = () => {
-//   return (
-//     <ScrollView>
-//     <View style={styles.card}>
-//         <View style={styles.cardContent}> 
-//         <Text style={styles.text}>درس نظامی (6 سالۂ)</Text>
-//         <Text style={styles.centerHeading}>کتب خاصہ سالِ اوّل</Text>
-//         <Text style={styles.centerText}>ترجمہ و تفسير: عمہؔ پارہ(مکمل)</Text>
-//         <Text style={styles.centerText}>حديث: ذادلطالبين، جوامع الکلم(حفظ)</Text>
-//         <Text style={styles.centerText}>فقہ: تعليم الاسلام (حصہ سوم)، بہشتی زيور(حصہ ۲،۳،۴) </Text>
-//         <Text style={styles.centerText}>صرف و نحو: علم الصرف مع اجراء ازتمرين الصرف، علم النحو مع اجراء ازتمرين النحو عوامل النحو، تسہيل النحو</Text>
-//         <Text style={styles.centerText}>لغتہ عربيہ: طريقتہ العصریہ(جلد اول)، عربی کا معِلّم (حصہ ۱،۲)</Text>
-//         <Text style={styles.centerText}>تجويد: خلاصۃ التجويد</Text>
-//     <View style = {styles.lineStyle} />
-//     <View style={{flexDirection:'row',flex:1,justifyContent:'space-between'}}>
-//       <Text style={{color: "#000000",fontWeight:"bold"}}>وقت (۲:۰۰ تا ۱۰ بجے)</Text>
-//       <Text style={{color: "#000000",fontWeight:"bold"}}>دورانیه: ۹ ماہ (ذی القعد تا رجب)</Text>
-//     </View>
-//     </View> 
-//     </View>
-//     {/* Card 1 End */}
-//     <View style={styles.card}>
-//         <View style={styles.cardContent}> 
-//         <Text style={styles.text}>دراسات دينيہ سال اوّل </Text>
-//         <Text style={styles.centerHeading}>کتب خاصہ سالِ اوّل</Text>
-//         <Text style={styles.centerText}>ترجمہ و تفسیر: سورۃ يونس تا سورۃ عنکبوت</Text>
-//         <Text style={styles.centerText}>حديث: معارف الحديث(جلد ۲،۳،۴)</Text>
-//         <Text style={styles.centerText}>فقہ: تعليم الاسلام(مکمل)، بہشتی زيور(جلد۲،۳،۴) </Text>
-//         <Text style={styles.centerText}>صرف و نحو: علم الصرف(حصّہ۱،۲)، علم النحو</Text>
-//         <Text style={styles.centerText}>لغتہ عربيہ: طريقة العصريہ (جلد ۱)، قصص النبيين(حصہ۱،۲)، سيرت الانبياءصلی اللہ عليہ وسلم(مفتی محمد شفيع)</Text>
-//         <Text style={styles.centerText}>سيرت، حرر: حرر آخری پارہ عم مع ربع آخر حفظ</Text>
-//     <View style = {styles.lineStyle} />
-//     <View style={{flexDirection:'row',flex:1,justifyContent:'space-between'}}>
-//       <Text style={{color: "#000000",fontWeight:"bold"}}>وقت (۲:۰۰ تا ۱۰ بجے)</Text>
-//       <Text style={{color: "#000000",fontWeight:"bold"}}>دورانیه: ۹ ماہ (ذی القعد تا رجب)</Text>
-//     </View>
-//     </View> 
-//     </View>
-//     {/* Card 2 end */}
-//     <View style={styles.card}>
-//         <View style={styles.cardContent}> 
-//         <Text style={styles.text}>دراسات دينيہ سالِ دوم </Text>
-//         <Text style={styles.centerHeading}>کتب خاصہ سالِ دوم</Text>
-//         <Text style={styles.centerText}>ترجمہ و تفسير: سورۃ بقرہ تا سورۃ يونس و سورۃ عنکبوت تا ختم قرآن</Text>
-//         <Text style={styles.centerText}>حديث: معارف الحديث(جلد ۱،۵،۶،۷)</Text>
-//         <Text style={styles.centerText}>فقہ: بہشتی زيور (جلد ۱،۵،۶،۷)</Text>
-//         <Text style={styles.centerText}>صرف و نحو: علم الصرف (جلد۳،۴)، عوامل النحو</Text>
-//         <Text style={styles.centerText}>لغتہ عربیہ: طريقة العصريہ (جلد ۲)، قصص النبيين(جلد ۳،۴)</Text>
-//         <Text style={styles.centerText}>عقائد: حيات المسلمين(اردو)</Text>
-//     <View style = {styles.lineStyle} />
-//     <View style={{flexDirection:'row',flex:1,justifyContent:'space-between'}}>
-//       <Text style={{color: "#000000",fontWeight:"bold"}}>وقت (۲:۰۰ تا ۱۰ بجے)</Text>
-//       <Text style={{color: "#000000",fontWeight:"bold"}}>دورانیه: ۹ ماہ (ذی القعد تا رجب)</Text>
-//     </View>
-//     </View> 
-//     </View>
-//     {/* Card 3 end */}
-//     </ScrollView>
-//   );
-// };
-
-// export default BooksDetailsScreen;
-
-// const styles = StyleSheet.create({
-//     card: {
-//         borderRadius: 6,
-//         elevation: 3,
-//         backgroundColor: '#fff',
-//         shadowOffset: {width: 1, height:1},
-//         shadowColor: '#333',
-//         shadowOpacity: 0.3,
-//         shadowRadius:2,
-//         marginHorizontal:4,
-//         marginVertical:6,
-//     },
-//     cardContent: {
-//         marginHorizontal: 18,
-//         marginVertical: 10,    
-//     },
-//     text: {
-//         fontSize: 22,
-//         color: 'black',
-//         textAlign: 'center',
-//         marginBottom: 10,    
-//     },
-//     centerHeading: {
-//         color: '#000',  
-//         textAlign: 'center', 
-//         fontSize:20
-//     },
-//     centerText: {
-//         color: 'grey',  
-//         textAlign: 'center', 
-//         fontSize:20
-//     },
-//     lineStyle:{
-//         borderWidth: 0.5,
-//         borderColor:'black',
-//        marginTop:10,
-//        marginBottom:10,
-//     },
-// })
